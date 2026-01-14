@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary-bg: 255 255 255;
+    --color-primary-text: 30 41 59;
+    --color-accent: 14 165 233;
+    --color-brand-start: 37 99 235;
+    --color-brand-end: 6 182 212;
+  }
+
+  .dark {
+    --color-primary-bg: 15 23 42;
+    --color-primary-text: 248 250 252;
+    --color-accent: 56 189 248;
+    --color-brand-start: 96 165 250;
+    --color-brand-end: 34 211 238;
+  }
+
+  body {
+    @apply bg-primary-bg text-primary-text antialiased transition-colors duration-300;
+  }
+}
