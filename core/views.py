@@ -4,13 +4,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
-from .models import Project, Skill, Post, ContactMessage, Comment
+from .models import Project, Skill, Post, ContactMessage, Comment, TimelineEvent
 from .serializers import (
     ProjectSerializer, 
     SkillSerializer, 
     PostSerializer, 
     ContactMessageSerializer,
-    CommentSerializer
+    CommentSerializer,
+    TimelineEventSerializer
 )
 
 # -----------------
@@ -63,4 +64,12 @@ class ContactCreateView(generics.CreateAPIView):
 class CommentCreateView(generics.CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = [AllowAny]
+
+# -----------------
+# TIMELINE
+# -----------------
+class TimelineEventListView(generics.ListAPIView):
+    queryset = TimelineEvent.objects.all()
+    serializer_class = TimelineEventSerializer
     permission_classes = [AllowAny]

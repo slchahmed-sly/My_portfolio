@@ -1,21 +1,80 @@
-Frontend Design Specifications - Phase 1
-1. Design Language & BrandingTheme: "The Professional" — Clean, trustworthy,
-engineering-focused.Color Palette:Primary Background: Pure White (#ffffff)
-.Primary Text: Dark Slate / Charcoal (#1e293b).Accent/Action Color: Ocean Blue (#0ea5e9).
-Brand Gradient: Royal Blue (#2563eb) $\to$ Cyan (#06b6d4).
-2. Component SpecificationsA. The Navbar (The Floating Capsule)Form & Position:A minimalist, 
-wide, pill-shaped container (fully rounded ends).Floating: Fixed at the top center of the 
-viewport, hovering slightly below the browser edge (not touching the top).
-Appearance: Solid White background with a subtle drop-shadow to separate it from the content.
- No glassmorphism/blur effects.Elements (Left to Right):Logo: Text-based logo reading "Souleimane".
- Style: Gradient text effect using the Brand Gradient (Royal Blue to Cyan).
- Navigation Links: Home, About, Projects, Blog.
- Interaction: Simple hover effect (e.g., grey pill background).
- Theme Toggle: Sun/Moon icon (placed between the Blog link and the CTA).
- CTA Button: "Download CV" (or Resume).
- Style: Pill-shaped button (nested inside the navbar), Ocean Blue background,
-  White text.Mobile Behavior:Collapses to just the Logo (Left) and a Hamburger Menu Icon 
-  (Right).Menu expands downwards from the capsule when clicked.
-  B. The Hero Section (The Hook)Layout: Split Screen (Text on the Left, Visuals on the Right).
-  Background: Pure White (#ffffff).Left Content (The Copy):Headline: "Data Scientist turned Full-Stack Engineer.
-  "Sub-headline: "Hi, I'm Souleimane. I leverage my background in AI and Deep Learning to build scalable, data-driven web solutions using Django and React."Tagline: "Master's in Data Science • Medical Imaging & NLP • Web Development"Action Buttons:Primary: "View My Work" (Pill-shaped, Ocean Blue).Secondary: "Visit Blog" (Outline style).Right Content (The Visual):Composition: A Layered 3D effect.Base Layer: A fluid, organic "Blob" shape colored with the Brand Gradient (#2563eb $\to$ #06b6d4).Top Layer: A clean, cut-out portrait (background removed) placed over the blob to create depth.Animation Strategy (Framer Motion):Entrance (On Load):Navbar: Slides down from the top with a soft bounce.Text: Staggered "Fade Up" effect (Headline $\to$ Sub-headline $\to$ Buttons).Visual: Gradient Blob scales up (expands from 0% to 100%), followed by the Portrait fading in.Idle Loop (Continuous):Blob: Slowly morphs shape or "breathes" to add life.Portrait: "Levitation" effect (moves up and down slightly/slowly) to separate it from the background.Interactions: Buttons lift slightly and cast a larger shadow on hover.
+Frontend Design Specifications - Phase 4 (The Blog & Publication)
+1. Page Architecture: The Feed (/blog)
+Layout Style: "Clean List" (Vertical flow of horizontal cards).
+
+Header:
+
+Title: "Writing" or "Journal".
+
+Search Input: A clean, wide search bar to filter posts by title/content in real-time.
+
+Tag Cloud: A scrollable row of pill-buttons (e.g., Django, Deep Learning, Math) to filter by topic.
+
+The Article Card (Horizontal Design)
+Layout: Split content (Text Left, Image Right).
+
+Left (Content):
+
+Date & Read Time: Small, grey text (e.g., "Jan 12, 2026 • 6 min read").
+
+Title: Bold, clickable link (H2).
+
+Excerpt: 2 lines of text, truncated.
+
+Right (Visual):
+
+Thumbnail: A small, square (1:1) or rectangular (4:3) image.
+
+Responsive: On mobile, the image moves to the top (or disappears to save space), stacking the content vertically.
+
+2. Page Architecture: The Article (/blog/:slug)
+Layout: Two-Column Layout (Desktop).
+
+Left/Center (65%): The Article Content.
+
+Right (25%): Sticky Sidebar (Table of Contents).
+
+Mobile Layout: Single column. The TOC collapses into a "Map" button at the top or bottom.
+
+Component Breakdown
+A. The Article Header
+
+Meta Info: Published Date • Read Time (Calculated automatically based on word count).
+
+Title: Massive H1 typography.
+
+Tags: List of relevant topics.
+
+Cover Image: Full-width, high-quality banner.
+
+B. The Sidebar (Table of Contents)
+
+Behavior: Sticky. As the user scrolls down the article, this menu stays fixed on the right side.
+
+Interactivity:
+
+Lists all H2 and H3 headers from the markdown.
+
+Active State: The current section being read is highlighted (e.g., Blue text/border).
+
+Clicking: Smooth scrolls to that section.
+
+C. The Content Body
+
+Typography: Optimized for long-form reading (larger font size text-lg, relaxed leading-relaxed).
+
+Engine: react-markdown + rehype-katex (Math) + syntax-highlighter (Code).
+
+Special Styling: Blockquotes (border-left), Lists (properly indented), Images (centered with captions).
+
+D. The Comment Section
+
+Position: Bottom of the article.
+
+Form: Simple inputs for Name and Message.
+
+Submit Action: Sends POST request to Django.
+
+Feedback: "Comment submitted for approval."
+
+List: Displays approved comments with Date and Name.

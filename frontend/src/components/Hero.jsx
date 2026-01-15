@@ -53,7 +53,7 @@ const Hero = () => {
                         <a href="#projects" className="group bg-accent text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-opacity-90 transition-all flex items-center gap-2 hover:gap-3">
                             View My Work <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
                         </a>
-                        <a href="#blog" className="px-8 py-3 rounded-full font-semibold border-2 border-gray-200 hover:border-accent hover:text-accent transition-colors flex items-center gap-2 text-primary-text">
+                        <a href="/blog" className="px-8 py-3 rounded-full font-semibold border-2 border-gray-200 hover:border-accent hover:text-accent transition-colors flex items-center gap-2 text-primary-text">
                             Visit Blog <ExternalLink size={18} />
                         </a>
                     </motion.div>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tag, Skill, Project, Post, Comment, ContactMessage
+from .models import Tag, Skill, Project, Post, Comment, ContactMessage, TimelineEvent
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,7 +9,7 @@ class TagSerializer(serializers.ModelSerializer):
 class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
-        fields = ['id', 'name', 'logo', 'is_key_skill']
+        fields = ['id', 'name', 'logo', 'is_key_skill', 'category']
 
 class ProjectSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
@@ -27,6 +27,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             'demo_link', 
             'tags', 
             'is_featured', 
+            'category',
             'created_at'
         ]
 
@@ -61,3 +62,8 @@ class ContactMessageSerializer(serializers.ModelSerializer):
         model = ContactMessage
         fields = ['id', 'name', 'email', 'message', 'timestamp']
         read_only_fields = ['timestamp']
+
+class TimelineEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TimelineEvent
+        fields = ['id', 'year', 'title', 'description', 'order']

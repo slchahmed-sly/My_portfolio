@@ -16,4 +16,7 @@ urlpatterns = [
     # Contact & Comments
     path('contact/', views.ContactCreateView.as_view(), name='contact-create'),
     path('comments/', views.CommentCreateView.as_view(), name='comment-create'),
+
+    # Timeline
+    path('timeline/', views.TimelineEventListView.as_view(), name='timeline-list'),
 ]

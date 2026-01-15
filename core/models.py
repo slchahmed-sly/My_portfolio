@@ -17,9 +17,15 @@ class Tag(models.Model):
 
 # Skill Model
 class Skill(models.Model):
-    name = models.CharField(max_length=200)
-    logo = models.ImageField(upload_to='skills') 
+    CATEGORY_CHOICES = [
+        ('WEB', 'Web Development'),
+        ('DATA', 'Data Science & AI'),
+        ('TOOLS', 'Tools & DevOps'),
+    ]
+    name = models.CharField(max_length=50)
+    logo = models.ImageField(upload_to='skills/')
     is_key_skill = models.BooleanField(default=False)
+    category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='WEB')
 
     def __str__(self):
         return self.name
@@ -36,17 +42,23 @@ class ContactMessage(models.Model):
 
 # Projects Model
 class Project(models.Model):
+    CATEGORY_CHOICES = [
+        ('FULL_STACK', 'Full Stack'),
+        ('DATA_SCIENCE', 'Data Science'),
+        ('SCRIPTS', 'Scripts'),
+    ]
     title = models.CharField(max_length=200)
     slug = models.SlugField(db_index=True, unique=True)
     short_description = models.TextField()
     full_description = MarkdownxField() 
     
     thumbnail = models.ImageField(upload_to='projects')
-    repo_link = models.URLField()
-    demo_link = models.URLField()
+    repo_link = models.URLField(blank=True)
+    demo_link = models.URLField(blank=True)
     tags = models.ManyToManyField(Tag, related_name='projects') 
     
     is_featured = models.BooleanField(default=False)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='FULL_STACK')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -85,3 +97,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.author_name} on {self.post.title}"
+
+class TimelineEvent(models.Model):
+    year = models.CharField(max_length=30) # e.g., "2018" or "2018-2021"
+    title = models.CharField(max_length=100)
+    description = models.TextField() # The mini-story
+    order = models.IntegerField(default=0) # To control the sequence
+
+    class Meta:
+        ordering = ['order']

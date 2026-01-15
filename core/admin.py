@@ -14,7 +14,8 @@ class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'message', 'timestamp')
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'short_description', 'is_featured', 'created_at')
+    list_display = ('title', 'slug', 'category', 'short_description', 'is_featured', 'created_at')
+    list_filter = ('category', 'is_featured')
     prepopulated_fields = {'slug': ('title',)}
 
 class PostAdmin(admin.ModelAdmin):
@@ -25,6 +26,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('post', 'author_name', 'body', 'created_at', 'is_approved')
 
 admin.site.register(Tag, TagAdmin)
+admin.site.register(TimelineEvent)
 admin.site.register(Skill, SkillAdmin)
 admin.site.register(ContactMessage, ContactMessageAdmin)
 admin.site.register(Project,MarkdownxModelAdmin)

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 
@@ -27,10 +28,11 @@ const Navbar = () => {
     const toggleTheme = () => setIsDark(!isDark);
 
     const navLinks = [
-        { name: 'Home', href: '#' },
-        { name: 'About', href: '#' },
-        { name: 'Projects', href: '#' },
-        { name: 'Blog', href: '#' },
+        { name: 'Home', href: '/' },
+        { name: 'About', href: '/#about' },
+        { name: 'Works', href: '/#projects' },
+        { name: 'Writing', href: '/blog' },
+        { name: 'Contact', href: '/#contact' },
     ];
 
     return (
@@ -41,21 +43,30 @@ const Navbar = () => {
             className="fixed top-6 left-1/2 w-[90%] max-w-5xl bg-primary-bg rounded-full shadow-lg z-50 px-6 py-3 flex items-center justify-between"
         >
             {/* Logo */}
-            <a href="#" className="text-xl font-bold bg-gradient-to-r from-brand-start to-brand-end bg-clip-text text-transparent">
+            <Link to="/" className="text-xl font-bold bg-gradient-to-r from-brand-start to-brand-end bg-clip-text text-transparent">
                 Souleimane
-            </a>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
                 <ul className="flex items-center gap-6">
                     {navLinks.map((link) => (
                         <li key={link.name}>
-                            <a
-                                href={link.href}
-                                className="text-primary-text hover:text-gray-500 hover:bg-gray-100 px-3 py-1 rounded-full transition-colors duration-200 text-sm font-medium"
-                            >
-                                {link.name}
-                            </a>
+                            {link.href.startsWith('/') ? (
+                                <Link
+                                    to={link.href}
+                                    className="text-primary-text hover:text-gray-500 hover:bg-gray-100 px-3 py-1 rounded-full transition-colors duration-200 text-sm font-medium"
+                                >
+                                    {link.name}
+                                </Link>
+                            ) : (
+                                <a
+                                    href={link.href}
+                                    className="text-primary-text hover:text-gray-500 hover:bg-gray-100 px-3 py-1 rounded-full transition-colors duration-200 text-sm font-medium"
+                                >
+                                    {link.name}
+                                </a>
+                            )}
                         </li>
                     ))}
                 </ul>
