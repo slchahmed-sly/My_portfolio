@@ -5,11 +5,11 @@ from modeltranslation.admin import TranslationAdmin
 
 # Register your models here.
 
-class TagAdmin(TranslationAdmin):
+class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
 
-class SkillAdmin(TranslationAdmin):
+class SkillAdmin(admin.ModelAdmin):
     list_display = ('name', 'logo', 'is_key_skill')
 
 class ContactMessageAdmin(admin.ModelAdmin):
