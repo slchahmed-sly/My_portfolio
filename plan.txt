@@ -1,80 +1,34 @@
-Frontend Design Specifications - Phase 4 (The Blog & Publication)
-1. Page Architecture: The Feed (/blog)
-Layout Style: "Clean List" (Vertical flow of horizontal cards).
+Phase 1: Backend Implementation (Django)
+Action Required: Update the Django backend to support model translation using django-modeltranslation.
 
-Header:
+Dependencies:
 
-Title: "Writing" or "Journal".
+Install django-modeltranslation.
 
-Search Input: A clean, wide search bar to filter posts by title/content in real-time.
+Add it to INSTALLED_APPS in settings.py (It must be added before django.contrib.admin).
 
-Tag Cloud: A scrollable row of pill-buttons (e.g., Django, Deep Learning, Math) to filter by topic.
+Settings Configuration (settings.py):
 
-The Article Card (Horizontal Design)
-Layout: Split content (Text Left, Image Right).
+Define LANGUAGES:
 
-Left (Content):
+Python
 
-Date & Read Time: Small, grey text (e.g., "Jan 12, 2026 • 6 min read").
+LANGUAGES = [
+    ('en', 'English'),
+    ('fr', 'French'),
+    ('ar', 'Arabic'),
+]
+Set MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'.
 
-Title: Bold, clickable link (H2).
+Add 'django.middleware.locale.LocaleMiddleware' to MIDDLEWARE. (Must be after SessionMiddleware and before CommonMiddleware).
 
-Excerpt: 2 lines of text, truncated.
+Translation Registration:
 
-Right (Visual):
+Create a new file base/translation.py.
 
-Thumbnail: A small, square (1:1) or rectangular (4:3) image.
+Register the Project, Skill, and TimelineEvent models.
 
-Responsive: On mobile, the image moves to the top (or disappears to save space), stacking the content vertically.
+Specify which fields need translation (e.g., title, description, full_description for Projects).
 
-2. Page Architecture: The Article (/blog/:slug)
-Layout: Two-Column Layout (Desktop).
 
-Left/Center (65%): The Article Content.
-
-Right (25%): Sticky Sidebar (Table of Contents).
-
-Mobile Layout: Single column. The TOC collapses into a "Map" button at the top or bottom.
-
-Component Breakdown
-A. The Article Header
-
-Meta Info: Published Date • Read Time (Calculated automatically based on word count).
-
-Title: Massive H1 typography.
-
-Tags: List of relevant topics.
-
-Cover Image: Full-width, high-quality banner.
-
-B. The Sidebar (Table of Contents)
-
-Behavior: Sticky. As the user scrolls down the article, this menu stays fixed on the right side.
-
-Interactivity:
-
-Lists all H2 and H3 headers from the markdown.
-
-Active State: The current section being read is highlighted (e.g., Blue text/border).
-
-Clicking: Smooth scrolls to that section.
-
-C. The Content Body
-
-Typography: Optimized for long-form reading (larger font size text-lg, relaxed leading-relaxed).
-
-Engine: react-markdown + rehype-katex (Math) + syntax-highlighter (Code).
-
-Special Styling: Blockquotes (border-left), Lists (properly indented), Images (centered with captions).
-
-D. The Comment Section
-
-Position: Bottom of the article.
-
-Form: Simple inputs for Name and Message.
-
-Submit Action: Sends POST request to Django.
-
-Feedback: "Comment submitted for approval."
-
-List: Displays approved comments with Date and Name.
+Database Migration:Run makemigrations and migrate. (This should create columns like title_en, title_fr, title_ar).Admin Panel:Update base/admin.py to inherit from TranslationAdmin instead of standard admin.ModelAdmin.This will allow me to edit all 3 languages in the dashboard tabs.Phase 2: Frontend Implementation (React)Action Required:Implement react-i18next for static text and language switching logic.Dependencies:Install i18next, react-i18next, i18next-browser-languagedetector, i18next-http-backend.Translation Files:Create folder structure: src/locales/Create en.json, fr.json, ar.json.Initial Keys to add: Navbar links (Home, Projects, Blog), Section Headers (About Me, Skills), and Common Buttons (Read More, Contact).Configuration (src/i18n.js):Initialize i18next.Use LanguageDetector to remember user preference.Set fallback language to 'en'.Language Switcher Component:Create components/LanguageSwitcher.jsx.It should be a dropdown or row of buttons (EN | FR | AR).Crucial Logic: When language changes:Call i18n.changeLanguage().Check if language is 'ar'.If 'ar', set document.documentElement.dir = 'rtl' and document.documentElement.lang = 'ar'.If 'en'/'fr', set dir = 'ltr'.API Data Handling:Update the axios or fetch calls. When requesting data from Django, add the header:'Accept-Language': i18n.languageThis ensures Django sends back the correct language for dynamic content (Projects/Blogs).Phase 3: Tailwind RTL StylingAction Required:Refactor CSS to support RTL mirroring automatically.Logical Properties:Scan Navbar.jsx, Hero.jsx, and ProjectCard.jsx.Replace physical directions with logical directions:ml-* (margin-left) $\to$ ms-* (margin-start).mr-* (margin-right) $\to$ me-* (margin-end).pl-* $\to$ ps-*.pr-* $\to$ pe-*.text-left $\to$ text-start.text-right $\to$ text-end.Verification:Ensure the Timeline component (border-left) moves to the right side when in RTL mode.

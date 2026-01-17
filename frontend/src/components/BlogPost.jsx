@@ -8,6 +8,7 @@ import rehypeKatex from 'rehype-katex';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import 'katex/dist/katex.min.css';
+import { useTranslation } from 'react-i18next';
 
 import { fetchPostBySlug, createComment } from '../api';
 
@@ -36,6 +37,7 @@ const getTextFromChildren = (children) => {
 };
 
 const BlogPost = () => {
+    const { t, i18n } = useTranslation();
     const { slug } = useParams();
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -49,7 +51,7 @@ const BlogPost = () => {
     useEffect(() => {
         const loadPost = async () => {
             setLoading(true);
-            const data = await fetchPostBySlug(slug);
+            const data = await fetchPostBySlug(slug, i18n.language);
             setPost(data);
             setLoading(false);
 
@@ -76,7 +78,7 @@ const BlogPost = () => {
             }
         };
         loadPost();
-    }, [slug]);
+    }, [slug, i18n.language]);
 
     // Handle Scroll Spy for TOC
     useEffect(() => {
@@ -134,9 +136,9 @@ const BlogPost = () => {
     if (!post) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-primary-bg text-primary-text">
-                <h2 className="text-2xl font-bold mb-4">Article not found</h2>
+                <h2 className="text-2xl font-bold mb-4">{t('blog_post.not_found')}</h2>
                 <Link to="/blog" className="text-accent hover:underline flex items-center gap-2">
-                    <ArrowLeft size={20} /> Back to Writing
+                    <ArrowLeft size={20} /> {t('blog_post.back_writing')}
                 </Link>
             </div>
         );
@@ -151,7 +153,7 @@ const BlogPost = () => {
             {/* Header */}
             <div className="container mx-auto max-w-5xl px-6 mb-12">
                 <Link to="/blog" className="inline-flex items-center gap-2 text-slate-500 hover:text-accent font-medium mb-8 transition-colors">
-                    <ArrowLeft size={18} /> Back to Writing
+                    <ArrowLeft size={18} /> {t('blog_post.back_writing')}
                 </Link>
 
                 <div className="flex items-center gap-4 text-sm text-slate-400 mb-6">
@@ -162,7 +164,7 @@ const BlogPost = () => {
                     <span>•</span>
                     <span className="flex items-center gap-1">
                         <Clock size={14} />
-                        {readTime} min read
+                        {readTime} {t('blog.read_time')}
                     </span>
                 </div>
 
@@ -230,7 +232,7 @@ const BlogPost = () => {
 
                     {/* Comments Section */}
                     <div className="mt-20 pt-12 border-t border-slate-100 dark:border-slate-800">
-                        <h3 className="text-2xl font-bold mb-8">Discussion</h3>
+                        <h3 className="text-2xl font-bold mb-8">{t('blog_post.discussion')}</h3>
 
                         {/* List */}
                         {post.comments && post.comments.length > 0 ? (
@@ -248,21 +250,21 @@ const BlogPost = () => {
                                 ))}
                             </div>
                         ) : (
-                            <p className="text-slate-500 mb-8">No comments yet. Be the first to share your thoughts!</p>
+                            <p className="text-slate-500 mb-8">{t('blog_post.no_comments')}</p>
                         )}
 
                         {/* Form */}
                         <div className="bg-slate-50 dark:bg-slate-900 p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
-                            <h4 className="text-lg font-bold mb-4">Leave a comment</h4>
+                            <h4 className="text-lg font-bold mb-4">{t('blog_post.leave_comment')}</h4>
                             {commentStatus === 'SUCCESS' ? (
                                 <div className="text-green-600 bg-green-50 p-4 rounded-lg">
-                                    Comment submitted! It will appear after approval.
-                                    <button onClick={() => setCommentStatus('IDLE')} className="block mt-2 text-sm underline text-green-700">Write another</button>
+                                    {t('blog_post.comment_submitted')}
+                                    <button onClick={() => setCommentStatus('IDLE')} className="block mt-2 text-sm underline text-green-700">{t('blog_post.write_another')}</button>
                                 </div>
                             ) : (
                                 <form onSubmit={handleCommentSubmit} className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium mb-1">Name</label>
+                                        <label className="block text-sm font-medium mb-1">{t('contact.name')}</label>
                                         <input
                                             type="text"
                                             required
@@ -273,7 +275,7 @@ const BlogPost = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-1">Message</label>
+                                        <label className="block text-sm font-medium mb-1">{t('contact.message')}</label>
                                         <textarea
                                             required
                                             rows="3"
@@ -283,13 +285,13 @@ const BlogPost = () => {
                                             placeholder="Great article..."
                                         ></textarea>
                                     </div>
-                                    {commentStatus === 'ERROR' && <p className="text-red-500 text-sm">Failed to submit. Try again.</p>}
+                                    {commentStatus === 'ERROR' && <p className="text-red-500 text-sm">{t('blog_post.submit_error')}</p>}
                                     <button
                                         type="submit"
                                         disabled={commentStatus === 'SENDING'}
                                         className="px-6 py-2 bg-accent text-white rounded-lg font-bold hover:bg-opacity-90 disabled:opacity-50"
                                     >
-                                        {commentStatus === 'SENDING' ? 'Submitting...' : 'Post Comment'}
+                                        {commentStatus === 'SENDING' ? t('blog_post.submitting') : t('blog_post.post_comment')}
                                     </button>
                                 </form>
                             )}
@@ -300,7 +302,7 @@ const BlogPost = () => {
                 {/* Sidebar (Right) */}
                 <div className="hidden lg:block relative">
                     <div className="sticky top-32 max-h-[calc(100vh-140px)] overflow-y-auto pr-4 custom-scrollbar">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4 sticky top-0 bg-primary-bg z-10 py-2">Table of Contents</h4>
+                        <h4 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4 sticky top-0 bg-primary-bg z-10 py-2">{t('blog_post.toc')}</h4>
                         <nav className="flex flex-col gap-1 border-l py-2 border-slate-200 dark:border-slate-800">
                             {headings.map(heading => (
                                 <a

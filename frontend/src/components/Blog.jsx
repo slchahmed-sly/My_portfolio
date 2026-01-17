@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Clock, Calendar } from 'lucide-react';
 import { fetchPosts } from '../api';
+import { useTranslation } from 'react-i18next';
 
 const Blog = () => {
+    const { t, i18n } = useTranslation();
     const [posts, setPosts] = useState([]);
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,7 +17,7 @@ const Blog = () => {
     useEffect(() => {
         const loadPosts = async () => {
             setLoading(true);
-            const data = await fetchPosts();
+            const data = await fetchPosts(i18n.language);
             setPosts(data);
             setFilteredPosts(data);
 
@@ -29,7 +31,7 @@ const Blog = () => {
             setLoading(false);
         };
         loadPosts();
-    }, []);
+    }, [i18n.language]);
 
     useEffect(() => {
         let result = posts;
@@ -57,7 +59,7 @@ const Blog = () => {
     const calculateReadTime = (content) => {
         const words = content.trim().split(/\s+/).length;
         const time = Math.ceil(words / 200);
-        return `${time} min read`;
+        return `${time} ${t('blog.read_time')}`;
     };
 
     return (
@@ -65,19 +67,19 @@ const Blog = () => {
             <div className="container mx-auto max-w-4xl">
 
                 {/* Header */}
-                <div className="mb-16 text-center md:text-left">
-                    <h1 className="text-4xl md:text-6xl font-bold mb-8">Writing</h1>
+                <div className="mb-16 text-center md:text-start">
+                    <h1 className="text-4xl md:text-6xl font-bold mb-8">{t('blog.title')}</h1>
 
                     <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
                         {/* Search */}
                         <div className="relative w-full md:w-96">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                            <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                             <input
                                 type="text"
-                                placeholder="Search articles..."
+                                placeholder={t('blog.search_placeholder')}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-12 pr-4 py-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-accent outline-none transition-shadow shadow-sm"
+                                className="w-full ps-12 pe-4 py-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-accent outline-none transition-shadow shadow-sm"
                             />
                         </div>
 
@@ -88,8 +90,8 @@ const Blog = () => {
                                     key={tag}
                                     onClick={() => setSelectedTag(tag)}
                                     className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${selectedTag === tag
-                                            ? 'bg-accent text-white'
-                                            : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                                        ? 'bg-accent text-white'
+                                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                                         }`}
                                 >
                                     {tag}
@@ -152,12 +154,12 @@ const Blog = () => {
                         ))
                     ) : (
                         <div className="text-center py-20 text-slate-400">
-                            <p className="text-lg">No articles found matching your criteria.</p>
+                            <p className="text-lg">{t('blog.empty')}</p>
                             <button
                                 onClick={() => { setSearchTerm(''); setSelectedTag('All'); }}
                                 className="mt-4 text-accent font-medium hover:underline"
                             >
-                                Clear filters
+                                {t('blog.clear_filters')}
                             </button>
                         </div>
                     )}

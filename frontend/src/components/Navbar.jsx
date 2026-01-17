@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sun, Moon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const Navbar = () => {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [isDark, setIsDark] = useState(() => {
         if (typeof window !== "undefined") {
@@ -28,11 +31,11 @@ const Navbar = () => {
     const toggleTheme = () => setIsDark(!isDark);
 
     const navLinks = [
-        { name: 'Home', href: '/' },
-        { name: 'About', href: '/#about' },
-        { name: 'Works', href: '/#projects' },
-        { name: 'Blog', href: '/blog' },
-        { name: 'Contact', href: '/#contact' },
+        { name: t('navbar.home'), href: '/' },
+        { name: t('navbar.about'), href: '/#about' },
+        { name: t('navbar.works'), href: '/#projects' },
+        { name: t('navbar.blog'), href: '/blog' },
+        { name: t('navbar.contact'), href: '/#contact' },
     ];
 
     return (
@@ -72,6 +75,7 @@ const Navbar = () => {
                 </ul>
 
                 <div className="flex items-center gap-4">
+                    <LanguageSwitcher />
                     <button
                         onClick={toggleTheme}
                         className="p-2 rounded-full hover:bg-gray-100 transition-colors text-primary-text"
@@ -84,13 +88,14 @@ const Navbar = () => {
                         href="#"
                         className="bg-accent hover:opacity-90 text-white px-5 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg"
                     >
-                        Download CV
+                        {t('navbar.downloadCV')}
                     </a>
                 </div>
             </div>
 
             {/* Mobile Toggle */}
             <div className="flex items-center gap-4 md:hidden">
+                <LanguageSwitcher />
                 <button
                     onClick={toggleTheme}
                     className="p-1 rounded-full hover:bg-gray-100 transition-colors text-primary-text"
@@ -134,7 +139,7 @@ const Navbar = () => {
                                 className="bg-accent text-white px-4 py-3 rounded-xl text-center font-medium shadow-md active:scale-95 transition-transform"
                                 onClick={() => setIsOpen(false)}
                             >
-                                Download CV
+                                {t('navbar.downloadCV')}
                             </a>
                         </div>
                     </motion.div>

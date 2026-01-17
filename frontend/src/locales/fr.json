@@ -1,0 +1,80 @@
+{
+    "navbar": {
+        "home": "Accueil",
+        "about": "À propos",
+        "works": "Projets",
+        "blog": "Blog",
+        "contact": "Contact",
+        "downloadCV": "Télécharger CV"
+    },
+    "hero": {
+        "title_start": "Data Scientist et",
+        "title_end": "ingénieur logiciel spécialisé dans le back-end",
+        "description": "Bonjour, je suis Souleimane. Je m'appuie sur mon expérience en IA et Deep Learning pour créer des solutions web évolutives avec Django et React.",
+        "edu_title": "Master en Data Science • Imagerie Médicale & NLP • Développement Web",
+        "view_work": "Voir mes projets",
+        "visit_blog": "Visiter le blog"
+    },
+    "bio": {
+        "title": "Mon Parcours"
+    },
+    "skills": {
+        "title": "Arsenal de Compétences",
+        "web": "Ingénierie Web",
+        "data": "Intelligence des Données"
+    },
+    "contact": {
+        "title": "Contactez-moi",
+        "subtitle": "Je suis actuellement à la recherche de nouvelles opportunités. Que vous ayez une question ou juste envie de dire bonjour, ma boîte de réception est toujours ouverte !",
+        "info_title": "Infos Contact",
+        "social_title": "Réseaux Sociaux",
+        "success_title": "Message Envoyé !",
+        "success_message": "Merci de m'avoir contacté. Je vous répondrai bientôt.",
+        "send_another": "Envoyer un autre message",
+        "name": "Nom",
+        "email": "Email",
+        "message": "Message",
+        "error": "Échec de l'envoi du message. Veuillez réessayer.",
+        "sending": "Envoi...",
+        "send": "Envoyer le message"
+    },
+    "works": {
+        "title": "Travaux Récents",
+        "view_archive": "Voir les archives",
+        "filters": {
+            "all": "Tout",
+            "full_stack": "Full Stack",
+            "data_science": "Data Science",
+            "scripts": "Scripts"
+        },
+        "empty": "Aucun projet trouvé."
+    },
+    "blog": {
+        "title": "Blog",
+        "search_placeholder": "Rechercher des articles...",
+        "read_time": "min de lecture",
+        "empty": "Aucun article trouvé correspondant à vos critères.",
+        "clear_filters": "Effacer les filtres"
+    },
+    "project_detail": {
+        "not_found": "Projet non trouvé",
+        "back_home": "Retour à l'accueil",
+        "live_demo": "Démo en direct",
+        "source_code": "Code source",
+        "explore_more": "Explorer d'autres projets",
+        "default_category": "Projet"
+    },
+    "blog_post": {
+        "not_found": "Article non trouvé",
+        "back_writing": "Retour au blog",
+        "discussion": "Discussion",
+        "no_comments": "Aucun commentaire pour l'instant. Soyez le premier à partager votre avis !",
+        "leave_comment": "Laisser un commentaire",
+        "comment_submitted": "Commentaire envoyé ! Il apparaîtra après approbation.",
+        "write_another": "Écrire un autre",
+        "post_comment": "Publier le commentaire",
+        "submitting": "Envoi en cours...",
+        "submit_error": "Échec de l'envoi. Veuillez réessayer.",
+        "toc": "Table des matières"
+    }
+}

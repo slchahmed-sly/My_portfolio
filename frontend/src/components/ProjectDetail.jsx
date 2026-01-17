@@ -8,10 +8,12 @@ import rehypeKatex from 'rehype-katex';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import 'katex/dist/katex.min.css';
+import { useTranslation } from 'react-i18next';
 
 import { fetchProjectBySlug } from '../api';
 
 const ProjectDetail = () => {
+    const { t, i18n } = useTranslation();
     const { slug } = useParams();
     const [project, setProject] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -19,13 +21,13 @@ const ProjectDetail = () => {
     useEffect(() => {
         const loadProject = async () => {
             setLoading(true);
-            const data = await fetchProjectBySlug(slug);
+            const data = await fetchProjectBySlug(slug, i18n.language); // Pass language if API supports it later
             setProject(data);
             setLoading(false);
             window.scrollTo(0, 0); // Reset scroll to top
         };
         loadProject();
-    }, [slug]);
+    }, [slug, i18n.language]);
 
     if (loading) {
         return (
@@ -38,9 +40,9 @@ const ProjectDetail = () => {
     if (!project) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-white text-primary-text">
-                <h2 className="text-2xl font-bold mb-4">Project not found</h2>
+                <h2 className="text-2xl font-bold mb-4">{t('project_detail.not_found')}</h2>
                 <Link to="/" className="text-accent hover:underline flex items-center gap-2">
-                    <ArrowLeft size={20} /> Back to Home
+                    <ArrowLeft size={20} /> {t('project_detail.back_home')}
                 </Link>
             </div>
         );
@@ -58,7 +60,7 @@ const ProjectDetail = () => {
 
                 <div className="flex flex-wrap items-center justify-between gap-6 border-b border-slate-100 pb-8 mb-8">
                     <span className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-                        {project.category ? project.category.replace('_', ' ') : 'Project'}
+                        {project.category ? project.category.replace('_', ' ') : t('project_detail.default_category')}
                     </span>
 
                     <div className="flex gap-4">
@@ -69,7 +71,7 @@ const ProjectDetail = () => {
                                 rel="noopener noreferrer"
                                 className="flex items-center gap-2 px-6 py-2 bg-accent text-white rounded-full font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all text-sm"
                             >
-                                Live Demo <ExternalLink size={16} />
+                                {t('project_detail.live_demo')} <ExternalLink size={16} />
                             </a>
                         )}
                         {project.repo_link && (
@@ -79,7 +81,7 @@ const ProjectDetail = () => {
                                 rel="noopener noreferrer"
                                 className="flex items-center gap-2 px-6 py-2 border-2 border-slate-200 text-slate-600 rounded-full font-semibold hover:border-slate-800 hover:text-slate-900 transition-all text-sm"
                             >
-                                Source Code <Github size={16} />
+                                {t('project_detail.source_code')} <Github size={16} />
                             </a>
                         )}
                     </div>
@@ -138,7 +140,6 @@ const ProjectDetail = () => {
                         img({ node, ...props }) {
                             // Fix for relative media paths from Django/MarkdownX
                             let src = props.src;
-                            console.log(src)
                             if (src && !src.startsWith('http')) {
                                 // Derive base URL from API_URL (remove /api suffix if present) or default to localhost
                                 const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
@@ -168,7 +169,7 @@ const ProjectDetail = () => {
             {/* Footer */}
             <div className="max-w-4xl mx-auto px-6 mt-20 pt-10 border-t border-slate-100 dark:border-slate-800 flex justify-end">
                 <Link to="/projects" className="group inline-flex items-center gap-3 text-lg font-semibold text-primary-text hover:text-accent transition-colors">
-                    Explore more projects <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                    {t('project_detail.explore_more')} <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </Link>
             </div>
 

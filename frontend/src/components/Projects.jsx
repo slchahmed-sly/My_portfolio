@@ -4,8 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { fetchProjects } from '../api';
 import ProjectCard from './ProjectCard';
+import { useTranslation } from 'react-i18next';
 
 const Projects = ({ isArchive = false }) => {
+    const { t, i18n } = useTranslation();
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('ALL');
@@ -14,12 +16,12 @@ const Projects = ({ isArchive = false }) => {
     useEffect(() => {
         const loadProjects = async () => {
             setLoading(true);
-            const data = await fetchProjects();
+            const data = await fetchProjects(i18n.language);
             setProjects(data);
             setLoading(false);
         };
         loadProjects();
-    }, []);
+    }, [i18n.language]);
 
     useEffect(() => {
         let result = projects;
@@ -45,10 +47,10 @@ const Projects = ({ isArchive = false }) => {
     }, [projects, filter]);
 
     const filters = [
-        { key: 'ALL', label: 'All' },
-        { key: 'FULL_STACK', label: 'Full Stack' },
-        { key: 'DATA_SCIENCE', label: 'Data Science' },
-        { key: 'SCRIPTS', label: 'Scripts' },
+        { key: 'ALL', label: t('works.filters.all') },
+        { key: 'FULL_STACK', label: t('works.filters.full_stack') },
+        { key: 'DATA_SCIENCE', label: t('works.filters.data_science') },
+        { key: 'SCRIPTS', label: t('works.filters.scripts') },
     ];
 
     return (
@@ -63,7 +65,7 @@ const Projects = ({ isArchive = false }) => {
                         viewport={{ once: true }}
                         className="text-3xl md:text-5xl font-bold text-primary-text mb-6"
                     >
-                        Featured Work
+                        {t('works.title')}
                     </motion.h2>
 
                     {/* Filters */}
@@ -116,7 +118,7 @@ const Projects = ({ isArchive = false }) => {
                             ))
                         ) : (
                             <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12">
-                                <p className="text-lg text-slate-500">No projects found.</p>
+                                <p className="text-lg text-slate-500">{t('works.empty')}</p>
                             </div>
                         )}
                     </AnimatePresence>
@@ -131,7 +133,7 @@ const Projects = ({ isArchive = false }) => {
                             to="/projects"
                             className="inline-flex items-center gap-2 text-primary-text font-semibold hover:text-accent transition-colors"
                         >
-                            View Project Archive <ArrowRight size={20} />
+                            {t('works.view_archive')} <ArrowRight size={20} />
                         </Link>
                     </div>
                 )}

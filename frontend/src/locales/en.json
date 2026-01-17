@@ -1,0 +1,80 @@
+{
+    "navbar": {
+        "home": "Home",
+        "about": "About",
+        "works": "Works",
+        "blog": "Blog",
+        "contact": "Contact",
+        "downloadCV": "Download CV"
+    },
+    "hero": {
+        "title_start": "Data Scientist And ",
+        "title_end": "Back End Focused software Engineer.",
+        "description": "Hi, I'm Souleimane. I leverage my background in AI and Deep Learning to build scalable, data-driven web solutions using Django and React.",
+        "edu_title": "Master's in Data Science • Medical Imaging & NLP • Web Development",
+        "view_work": "View My Work",
+        "visit_blog": "Visit Blog"
+    },
+    "bio": {
+        "title": "My Journey"
+    },
+    "skills": {
+        "title": "Skill Arsenal",
+        "web": "Web Engineering",
+        "data": "Data Intelligence"
+    },
+    "contact": {
+        "title": "Get In Touch",
+        "subtitle": "I'm currently looking for new opportunities. Whether you have a question or just want to say hi, my inbox is always open!",
+        "info_title": "Contact Info",
+        "social_title": "Social Profiles",
+        "success_title": "Message Sent!",
+        "success_message": "Thanks for reaching out. I'll get back to you soon.",
+        "send_another": "Send another message",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "error": "Failed to send message. Please try again.",
+        "sending": "Sending...",
+        "send": "Send Message"
+    },
+    "works": {
+        "title": "Featured Work",
+        "view_archive": "View Project Archive",
+        "filters": {
+            "all": "All",
+            "full_stack": "Full Stack",
+            "data_science": "Data Science",
+            "scripts": "Scripts"
+        },
+        "empty": "No projects found."
+    },
+    "blog": {
+        "title": "Writing",
+        "search_placeholder": "Search articles...",
+        "read_time": "min read",
+        "empty": "No articles found matching your criteria.",
+        "clear_filters": "Clear filters"
+    },
+    "project_detail": {
+        "not_found": "Project not found",
+        "back_home": "Back to Home",
+        "live_demo": "Live Demo",
+        "source_code": "Source Code",
+        "explore_more": "Explore more projects",
+        "default_category": "Project"
+    },
+    "blog_post": {
+        "not_found": "Article not found",
+        "back_writing": "Back to Writing",
+        "discussion": "Discussion",
+        "no_comments": "No comments yet. Be the first to share your thoughts!",
+        "leave_comment": "Leave a comment",
+        "comment_submitted": "Comment submitted! It will appear after approval.",
+        "write_another": "Write another",
+        "post_comment": "Post Comment",
+        "submitting": "Submitting...",
+        "submit_error": "Failed to submit. Try again.",
+        "toc": "Table of Contents"
+    }
+}

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Github, Linkedin, Twitter, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { sendContactMessage } from '../api';
+import { useTranslation } from 'react-i18next';
 
 const Contact = () => {
+    const { t } = useTranslation();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -37,11 +39,10 @@ const Contact = () => {
                     className="text-center mb-16"
                 >
                     <h2 className="text-3xl md:text-5xl font-bold text-primary-text mb-6">
-                        Get In Touch
+                        {t('contact.title')}
                     </h2>
                     <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                        I'm currently looking for new opportunities. Whether you have a question or just want to say hi,
-                        my inbox is always open!
+                        {t('contact.subtitle')}
                     </p>
                 </motion.div>
 
@@ -55,7 +56,7 @@ const Contact = () => {
                         className="space-y-8"
                     >
                         <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-                            <h3 className="text-xl font-bold text-primary-text mb-4">Contact Info</h3>
+                            <h3 className="text-xl font-bold text-primary-text mb-4">{t('contact.info_title')}</h3>
                             <a
                                 href="mailto:souleimane.ch.ahmed@gmail.com"
                                 className="flex items-center gap-3 text-slate-600 dark:text-slate-300 hover:text-accent transition-colors"
@@ -68,7 +69,7 @@ const Contact = () => {
                         </div>
 
                         <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-                            <h3 className="text-xl font-bold text-primary-text mb-6">Social Profiles</h3>
+                            <h3 className="text-xl font-bold text-primary-text mb-6">{t('contact.social_title')}</h3>
                             <div className="flex gap-4">
                                 <SocialLink href="https://github.com" icon={<Github size={20} />} label="GitHub" />
                                 <SocialLink href="https://linkedin.com" icon={<Linkedin size={20} />} label="LinkedIn" />
@@ -90,19 +91,19 @@ const Contact = () => {
                                 <div className="inline-flex p-4 bg-green-100 text-green-600 rounded-full mb-4">
                                     <CheckCircle size={48} />
                                 </div>
-                                <h3 className="text-2xl font-bold text-primary-text mb-2">Message Sent!</h3>
-                                <p className="text-slate-500">Thanks for reaching out. I'll get back to you soon.</p>
+                                <h3 className="text-2xl font-bold text-primary-text mb-2">{t('contact.success_title')}</h3>
+                                <p className="text-slate-500">{t('contact.success_message')}</p>
                                 <button
                                     onClick={() => setStatus('IDLE')}
                                     className="mt-6 text-accent font-semibold hover:underline"
                                 >
-                                    Send another message
+                                    {t('contact.send_another')}
                                 </button>
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Name</label>
+                                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('contact.name')}</label>
                                     <input
                                         type="text"
                                         id="name"
@@ -111,11 +112,11 @@ const Contact = () => {
                                         value={formData.name}
                                         onChange={handleChange}
                                         className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all"
-                                        placeholder="Your Name"
+                                        placeholder={t('contact.name')}
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Email</label>
+                                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('contact.email')}</label>
                                     <input
                                         type="email"
                                         id="email"
@@ -128,7 +129,7 @@ const Contact = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Message</label>
+                                    <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('contact.message')}</label>
                                     <textarea
                                         id="message"
                                         name="message"
@@ -137,14 +138,14 @@ const Contact = () => {
                                         value={formData.message}
                                         onChange={handleChange}
                                         className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all resize-none"
-                                        placeholder="Your message..."
+                                        placeholder={t('contact.message')}
                                     ></textarea>
                                 </div>
 
                                 {status === 'ERROR' && (
                                     <div className="flex items-center gap-2 text-red-500 bg-red-50 p-3 rounded-lg text-sm">
                                         <AlertCircle size={16} />
-                                        Failed to send message. Please try again.
+                                        {t('contact.error')}
                                     </div>
                                 )}
 
@@ -153,9 +154,9 @@ const Contact = () => {
                                     disabled={status === 'SENDING'}
                                     className="w-full flex items-center justify-center gap-2 bg-accent text-white py-3 rounded-lg font-bold hover:bg-opacity-90 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                                 >
-                                    {status === 'SENDING' ? 'Sending...' : (
+                                    {status === 'SENDING' ? t('contact.sending') : (
                                         <>
-                                            Send Message <Send size={18} />
+                                            {t('contact.send')} <Send size={18} />
                                         </>
                                     )}
                                 </button>

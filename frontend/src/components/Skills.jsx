@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fetchSkills } from '../api';
+import { useTranslation } from 'react-i18next';
 
 const Skills = () => {
+    const { t, i18n } = useTranslation();
     const [skills, setSkills] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('WEB'); // 'WEB' or 'DATA'
@@ -10,12 +12,12 @@ const Skills = () => {
     useEffect(() => {
         const loadSkills = async () => {
             setLoading(true);
-            const data = await fetchSkills();
+            const data = await fetchSkills(i18n.language);
             setSkills(data);
             setLoading(false);
         };
         loadSkills();
-    }, []);
+    }, [i18n.language]);
 
     // Filter skills based on tab
     const filteredSkills = skills.filter(skill => {
@@ -41,7 +43,7 @@ const Skills = () => {
                     viewport={{ once: true }}
                     className="text-3xl md:text-5xl font-bold text-center mb-12 text-primary-text"
                 >
-                    Skill Arsenal
+                    {t('skills.title')}
                 </motion.h2>
 
                 {/* Tabs */}
@@ -58,7 +60,7 @@ const Skills = () => {
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                             />
                         )}
-                        <span className="relative z-10">Web Engineering</span>
+                        <span className="relative z-10">{t('skills.web')}</span>
                     </button>
 
                     <button
@@ -73,7 +75,7 @@ const Skills = () => {
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                             />
                         )}
-                        <span className="relative z-10">Data Intelligence</span>
+                        <span className="relative z-10">{t('skills.data')}</span>
                     </button>
                 </div>
 

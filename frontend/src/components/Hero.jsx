@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ExternalLink } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
+    const { t } = useTranslation();
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -31,30 +33,29 @@ const Hero = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="flex flex-col gap-6 z-10 text-center lg:text-left"
+                    className="flex flex-col gap-6 z-10 text-center lg:text-start"
                 >
                     <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl font-bold tracking-tight text-primary-text leading-tight">
-                        Data Scientist turned <br />
+                        {t('hero.title_start')} <br />
                         <span className="bg-gradient-to-r from-brand-start to-brand-end bg-clip-text text-transparent">
-                            Full-Stack Engineer.
+                            {t('hero.title_end')}
                         </span>
                     </motion.h1>
 
                     <motion.p variants={itemVariants} className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                        Hi, I'm Souleimane. I leverage my background in AI and Deep Learning to build scalable,
-                        data-driven web solutions using Django and React.
+                        {t('hero.description')}
                     </motion.p>
 
                     <motion.div variants={itemVariants} className="text-sm font-semibold text-accent uppercase tracking-wider">
-                        Master's in Data Science • Medical Imaging & NLP • Web Development
+                        {t('hero.edu_title')}
                     </motion.div>
 
                     <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
                         <a href="#projects" className="group bg-accent text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-opacity-90 transition-all flex items-center gap-2 hover:gap-3">
-                            View My Work <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
+                            {t('hero.view_work')} <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
                         </a>
                         <a href="/blog" className="px-8 py-3 rounded-full font-semibold border-2 border-gray-200 hover:border-accent hover:text-accent transition-colors flex items-center gap-2 text-primary-text">
-                            Visit Blog <ExternalLink size={18} />
+                            {t('hero.visit_blog')} <ExternalLink size={18} />
                         </a>
                     </motion.div>
                 </motion.div>

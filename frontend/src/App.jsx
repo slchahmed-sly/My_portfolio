@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './i18n';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
