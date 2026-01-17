@@ -7,13 +7,16 @@ import ProjectCard from './ProjectCard';
 
 const Projects = ({ isArchive = false }) => {
     const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('ALL');
     const [filteredProjects, setFilteredProjects] = useState([]);
 
     useEffect(() => {
         const loadProjects = async () => {
+            setLoading(true);
             const data = await fetchProjects();
             setProjects(data);
+            setLoading(false);
         };
         loadProjects();
     }, []);
@@ -92,9 +95,30 @@ const Projects = ({ isArchive = false }) => {
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
                 >
                     <AnimatePresence mode="popLayout">
-                        {filteredProjects.map((project) => (
-                            <ProjectCard key={project.id} project={project} />
-                        ))}
+                        {loading ? (
+                            // Skeleton Loading
+                            [1, 2, 3].map((n) => (
+                                <div key={n} className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 h-[400px] animate-pulse">
+                                    <div className="h-48 bg-slate-200 dark:bg-slate-700" />
+                                    <div className="p-6 space-y-4">
+                                        <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
+                                        <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+                                        <div className="flex gap-2 pt-4">
+                                            <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded-full" />
+                                            <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded-full" />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : filteredProjects.length > 0 ? (
+                            filteredProjects.map((project) => (
+                                <ProjectCard key={project.id} project={project} />
+                            ))
+                        ) : (
+                            <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12">
+                                <p className="text-lg text-slate-500">No projects found.</p>
+                            </div>
+                        )}
                     </AnimatePresence>
                 </motion.div>
 

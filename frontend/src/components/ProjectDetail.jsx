@@ -50,12 +50,7 @@ const ProjectDetail = () => {
         <article className="min-h-screen bg-primary-bg text-primary-text pb-20">
             {/* Header */}
             <div className="max-w-4xl mx-auto pt-28 px-6">
-                <Link
-                    to="/projects"
-                    className="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-accent font-medium mb-8 transition-colors"
-                >
-                    <ArrowLeft size={18} /> Back to Projects
-                </Link>
+
 
                 <h1 className="text-3xl md:text-5xl font-bold text-primary-text mb-6 leading-tight">
                     {project.title}
@@ -135,14 +130,27 @@ const ProjectDetail = () => {
                                     {String(children).replace(/\n$/, '')}
                                 </SyntaxHighlighter>
                             ) : (
-                                <code className={`${className} bg-slate-100 dark:bg-slate-800 text-red-500 rounded px-1 py-0.5`} {...props}>
+                                <code className={`${className} !bg-slate-100 dark:!bg-slate-800 !text-red-500 rounded px-1 py-0.5 font-mono text-sm`} {...props}>
                                     {children}
                                 </code>
                             )
                         },
                         img({ node, ...props }) {
-                            // Fix for relative media paths from Django
-                            const src = props.src.startsWith('http') ? props.src : `http://127.0.0.1:8000${props.src}`;
+                            // Fix for relative media paths from Django/MarkdownX
+                            let src = props.src;
+                            console.log(src)
+                            if (src && !src.startsWith('http')) {
+                                // Derive base URL from API_URL (remove /api suffix if present) or default to localhost
+                                const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+                                const baseUrl = apiUrl.includes('/api')
+                                    ? apiUrl.split('/api')[0]
+                                    : apiUrl;
+
+                                // Ensure src starts with / if not present (MarkdownX usually provides /media/...)
+                                const cleanSrc = src.startsWith('/') ? src : `/${src}`;
+                                src = `${baseUrl}${cleanSrc}`;
+                            }
+
                             return (
                                 <img
                                     {...props}

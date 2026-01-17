@@ -4,12 +4,15 @@ import { fetchSkills } from '../api';
 
 const Skills = () => {
     const [skills, setSkills] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('WEB'); // 'WEB' or 'DATA'
 
     useEffect(() => {
         const loadSkills = async () => {
+            setLoading(true);
             const data = await fetchSkills();
             setSkills(data);
+            setLoading(false);
         };
         loadSkills();
     }, []);
@@ -80,45 +83,60 @@ const Skills = () => {
                     <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-gray-50 dark:from-slate-900 to-transparent z-10" />
                     <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-gray-50 dark:from-slate-900 to-transparent z-10" />
 
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={activeTab} // re-render marquee on tab change
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.5 }}
-                            className="flex"
-                        >
+                    {loading ? (
+                        <div className="flex gap-12 px-12 animate-pulse w-full justify-center overflow-hidden">
+                            {[1, 2, 3, 4, 5].map((n) => (
+                                <div key={n} className="flex flex-col items-center gap-3 min-w-[8rem]">
+                                    <div className="w-20 h-20 bg-slate-200 dark:bg-slate-800 rounded-xl" />
+                                    <div className="h-4 w-24 bg-slate-200 dark:bg-slate-800 rounded" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : filteredSkills.length > 0 ? (
+                        <AnimatePresence mode="wait">
                             <motion.div
-                                className="flex gap-12 px-12"
-                                animate={{ x: ["0%", "-33.33%"] }} // Scroll 1/3 of the duplicated content
-                                transition={{
-                                    repeat: Infinity,
-                                    duration: 25, // Adjust speed
-                                    ease: "linear",
-                                    repeatType: "loop"
-                                }}
+                                key={activeTab} // re-render marquee on tab change
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.5 }}
+                                className="flex"
                             >
-                                {marqueeSkills.map((skill, idx) => (
-                                    <div
-                                        key={`${skill.id}-${idx}`}
-                                        className="flex flex-col items-center justify-center gap-3 w-32 group cursor-default"
-                                    >
-                                        <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-xl shadow-md p-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-slate-700">
-                                            {skill.logo ? (
-                                                <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
-                                            ) : (
-                                                <div className="text-2xl font-bold text-gray-400">{skill.name[0]}</div>
-                                            )}
+                                <motion.div
+                                    className="flex gap-12 px-12"
+                                    animate={{ x: ["0%", "-33.33%"] }} // Scroll 1/3 of the duplicated content
+                                    transition={{
+                                        repeat: Infinity,
+                                        duration: 25, // Adjust speed
+                                        ease: "linear",
+                                        repeatType: "loop"
+                                    }}
+                                >
+                                    {marqueeSkills.map((skill, idx) => (
+                                        <div
+                                            key={`${skill.id}-${idx}`}
+                                            className="flex flex-col items-center justify-center gap-3 w-32 group cursor-default"
+                                        >
+                                            <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-xl shadow-md p-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-slate-700">
+                                                {skill.logo ? (
+                                                    <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
+                                                ) : (
+                                                    <div className="text-2xl font-bold text-gray-400">{skill.name[0]}</div>
+                                                )}
+                                            </div>
+                                            <span className="font-medium text-primary-text opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0">
+                                                {skill.name}
+                                            </span>
                                         </div>
-                                        <span className="font-medium text-primary-text opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0">
-                                            {skill.name}
-                                        </span>
-                                    </div>
-                                ))}
+                                    ))}
+                                </motion.div>
                             </motion.div>
-                        </motion.div>
-                    </AnimatePresence>
+                        </AnimatePresence>
+                    ) : (
+                        <div className="w-full text-center text-slate-500">
+                            No skills found for this category.
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

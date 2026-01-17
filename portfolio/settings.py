@@ -20,9 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-print("DEBUG ENV TEST:", os.path.exists(os.path.join(BASE_DIR, ".env")))
-print("CLOUD NAME:", env("CLOUDINARY_CLOUD_NAME", default="NOT FOUND"))
-
 # load_dotenv() # <-- need to look this up 
 
 
@@ -154,6 +151,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Added MEDIA_ROOT
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
@@ -172,7 +170,11 @@ MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml']
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'), # <-- need to look this up 
     'API_KEY': env('CLOUDINARY_API_KEY'), # <-- need to look this up 
-    'API_SECRET': env('CLOUDINARY_API_SECRET') # <-- need to look this up 
+    'API_SECRET': env('CLOUDINARY_API_SECRET'), # <-- need to look this up 
+    'MDX_UPLOAD_DATA': {'unique_filename': False},
+    'EXTRA_PARAMS': {
+       'unique_filename': False,
+    }
 }
 print(env('CLOUDINARY_API_KEY'))
 

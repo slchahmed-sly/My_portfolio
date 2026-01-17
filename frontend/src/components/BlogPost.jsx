@@ -11,6 +11,30 @@ import 'katex/dist/katex.min.css';
 
 import { fetchPostBySlug, createComment } from '../api';
 
+const slugify = (text) => {
+    if (!text) return '';
+    return String(text)
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')     // Replace spaces with -
+        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+        .replace(/\-\-+/g, '-');  // Replace multiple - with single -
+};
+
+const getTextFromChildren = (children) => {
+    let text = '';
+    React.Children.forEach(children, (child) => {
+        if (typeof child === 'string' || typeof child === 'number') {
+            text += child;
+        } else if (child?.props?.children) {
+            text += getTextFromChildren(child.props.children);
+        } else if (Array.isArray(child)) {
+            text += getTextFromChildren(child);
+        }
+    });
+    return text;
+};
+
 const BlogPost = () => {
     const { slug } = useParams();
     const [post, setPost] = useState(null);
@@ -29,17 +53,25 @@ const BlogPost = () => {
             setPost(data);
             setLoading(false);
 
-            if (data) {
+            if (data && data.content) {
                 // Extract headings for TOC
-                const lines = data.content.split('\n');
+                // Matches standard Markdown headings with up to 3 leading spaces
+                const headingRegex = /^\s{0,3}(#{1,3})\s+(.*)$/;
+
+                const lines = data.content.split(/\r?\n/);
                 const extractedHeadings = lines
-                    .filter(line => line.startsWith('## ') || line.startsWith('### '))
                     .map(line => {
-                        const level = line.startsWith('### ') ? 3 : 2;
-                        const text = line.replace(/^#+\s+/, '');
-                        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                        const match = line.match(headingRegex);
+                        if (!match) return null; // No match
+
+                        // match[1] is hashes, match[2] is text
+                        const level = match[1].length;
+                        const text = match[2].trim();
+                        const id = slugify(text);
                         return { id, text, level };
-                    });
+                    })
+                    .filter(Boolean); // Remove nulls
+
                 setHeadings(extractedHeadings);
             }
         };
@@ -48,6 +80,8 @@ const BlogPost = () => {
 
     // Handle Scroll Spy for TOC
     useEffect(() => {
+        if (loading || headings.length === 0) return;
+
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -65,7 +99,7 @@ const BlogPost = () => {
         });
 
         return () => observer.disconnect();
-    }, [headings, loading]); // wrapper dependency on loading to ensure DOM is ready
+    }, [headings, loading]);
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
@@ -77,6 +111,16 @@ const BlogPost = () => {
         } catch (error) {
             setCommentStatus('ERROR');
         }
+    };
+
+    const HeadingRenderer = ({ level, children, ...props }) => {
+        const text = getTextFromChildren(children);
+        const id = slugify(text);
+
+        // Dynamic tag generation
+        const Tag = `h${level}`;
+
+        return <Tag id={id} {...props}>{children}</Tag>;
     };
 
     if (loading) {
@@ -175,14 +219,9 @@ const BlogPost = () => {
                                     );
                                 },
                                 // Add IDs to headings for TOC
-                                h2: ({ node, children, ...props }) => {
-                                    const id = children.toString().toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                                    return <h2 id={id} {...props}>{children}</h2>
-                                },
-                                h3: ({ node, children, ...props }) => {
-                                    const id = children.toString().toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                                    return <h3 id={id} {...props}>{children}</h3>
-                                }
+                                h1: (props) => <HeadingRenderer level={1} {...props} />,
+                                h2: (props) => <HeadingRenderer level={2} {...props} />,
+                                h3: (props) => <HeadingRenderer level={3} {...props} />
                             }}
                         >
                             {post.content}
@@ -196,11 +235,6 @@ const BlogPost = () => {
                         {/* List */}
                         {post.comment_count > 0 ? (
                             <div className="space-y-6 mb-12">
-                                {/* Ideally we fetch comments here. For now assume post.comments is populated or we load them separately. 
-                                    Currently serializer uses 'comment_count', we might need to update serializer to return comments 
-                                    or fetch them. Assuming simple list for now if available. 
-                                    NOTE: API doesn't return full comments list in PostSerializer yet, only count. 
-                                    I will skip listing for now and just show Form + Count. */}
                                 <p className="text-slate-500 italic">{post.comment_count} comments (hidden for brevity in this version).</p>
                             </div>
                         ) : (
@@ -255,18 +289,21 @@ const BlogPost = () => {
 
                 {/* Sidebar (Right) */}
                 <div className="hidden lg:block relative">
-                    <div className="sticky top-32">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">Table of Contents</h4>
+                    <div className="sticky top-32 max-h-[calc(100vh-140px)] overflow-y-auto pr-4 custom-scrollbar">
+                        <h4 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4 sticky top-0 bg-primary-bg z-10 py-2">Table of Contents</h4>
                         <nav className="flex flex-col gap-1 border-l py-2 border-slate-200 dark:border-slate-800">
                             {headings.map(heading => (
                                 <a
-                                    key={heading.id}
+                                    key={`${heading.id}-${heading.text}`}
                                     href={`#${heading.id}`}
-                                    className={`pl-4 py-1 text-sm border-l-2 -ml-[2px] transition-colors ${activeId === heading.id
-                                            ? 'border-accent text-accent font-medium'
-                                            : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                                    className={`pl-4 py-1.5 text-sm border-l-2 -ml-[2px] transition-colors block truncate ${activeId === heading.id
+                                        ? 'border-accent text-accent font-medium'
+                                        : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
                                         }`}
-                                    style={{ paddingLeft: heading.level === 3 ? '2rem' : '1rem' }}
+                                    style={{
+                                        paddingLeft: heading.level === 3 ? '2rem' : heading.level === 2 ? '1rem' : '1rem',
+                                        fontSize: heading.level === 3 ? '0.85rem' : '0.875rem'
+                                    }}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         document.getElementById(heading.id)?.scrollIntoView({ behavior: 'smooth' });
