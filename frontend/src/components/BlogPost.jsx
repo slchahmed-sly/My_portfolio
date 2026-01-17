@@ -5,7 +5,7 @@ import { ArrowLeft, Clock, Calendar, Send } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import 'katex/dist/katex.min.css';
 
@@ -233,9 +233,19 @@ const BlogPost = () => {
                         <h3 className="text-2xl font-bold mb-8">Discussion</h3>
 
                         {/* List */}
-                        {post.comment_count > 0 ? (
+                        {post.comments && post.comments.length > 0 ? (
                             <div className="space-y-6 mb-12">
-                                <p className="text-slate-500 italic">{post.comment_count} comments (hidden for brevity in this version).</p>
+                                {post.comments.map(comment => (
+                                    <div key={comment.id} className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <h4 className="font-bold text-slate-800 dark:text-slate-200">{comment.author_name}</h4>
+                                            <span className="text-xs text-slate-400">
+                                                {new Date(comment.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                                            </span>
+                                        </div>
+                                        <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{comment.body}</p>
+                                    </div>
+                                ))}
                             </div>
                         ) : (
                             <p className="text-slate-500 mb-8">No comments yet. Be the first to share your thoughts!</p>

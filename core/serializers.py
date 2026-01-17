@@ -38,8 +38,9 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_at']  # <-- need to look this up 
 
 class PostSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, read_only=True) # <-- need to look this up 
+    tags = TagSerializer(many=True, read_only=True)
     comment_count = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -51,11 +52,16 @@ class PostSerializer(serializers.ModelSerializer):
             'tags', 
             'is_active', 
             'created_at',
-            'comment_count'
+            'comment_count',
+            'comments'
         ]
 
     def get_comment_count(self, obj):
         return obj.comments.filter(is_approved=True).count()
+
+    def get_comments(self, obj):
+        comments = obj.comments.filter(is_approved=True).order_by('-created_at')
+        return CommentSerializer(comments, many=True).data
 
 class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
