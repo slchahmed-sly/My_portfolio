@@ -10,7 +10,7 @@ const Projects = ({ isArchive = false }) => {
     const { t, i18n } = useTranslation();
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState('ALL');
+    const [filter, setFilter] = useState('FULL_STACK');
     const [filteredProjects, setFilteredProjects] = useState([]);
 
     useEffect(() => {
@@ -24,30 +24,29 @@ const Projects = ({ isArchive = false }) => {
     }, [i18n.language]);
 
     useEffect(() => {
-        let result = projects;
+        let result = [];
 
-        // 1. Filter by category
-        if (filter !== 'ALL') {
-            result = result.filter(project => project.category === filter);
-        }
-
-        // 2. Limit to showcased (e.g., top 6 featured or recent)
-        // Ideally backend handles "Featured" flag, but client filtering is OK for small datasets
-        const featured = result.filter(p => p.is_featured);
-        // If not enough featured, fill with others, or just show all (up to 6)
-        // merging logic: prioritise featured, then created_at desc
-        // For this component we just want up to 6 items to fit grid nice
-
-        if (!isArchive) {
-            setFilteredProjects(result.slice(0, 6));
+        if (isArchive) {
+            // Archive Mode: Show All, Filter by Category
+            result = projects.filter(project => project.category === filter);
         } else {
-            setFilteredProjects(result);
+            // Home Mode:
+            // 1. Get pool of featured projects (Top 3 Latest Featured)
+            const featuredPool = projects
+                .filter(p => p.is_featured)
+                .sort((a, b) => new Date(b.created_at || b.id) - new Date(a.created_at || a.id)) // Ensure sorted by newest
+                .slice(0, 3);
+
+            // 2. Filter this Top 3 pool by the selected category tab
+            result = featuredPool.filter(project => project.category === filter);
         }
 
-    }, [projects, filter]);
+        setFilteredProjects(result);
+
+    }, [projects, filter, isArchive]);
 
     const filters = [
-        { key: 'ALL', label: t('works.filters.all') },
+        // { key: 'ALL', label: t('works.filters.all') }, // Removed as requested
         { key: 'FULL_STACK', label: t('works.filters.full_stack') },
         { key: 'DATA_SCIENCE', label: t('works.filters.data_science') },
         { key: 'SCRIPTS', label: t('works.filters.scripts') },
@@ -62,7 +61,7 @@ const Projects = ({ isArchive = false }) => {
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "0px 0px -150px 0px" }}
                         className="text-3xl md:text-5xl font-bold text-primary-text mb-6"
                     >
                         {t('works.title')}
@@ -72,7 +71,7 @@ const Projects = ({ isArchive = false }) => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "0px 0px -150px 0px" }}
                         transition={{ delay: 0.2 }}
                         className="inline-flex flex-wrap justify-center gap-2 bg-gray-100 dark:bg-slate-800 p-1.5 rounded-3xl"
                     >
@@ -92,37 +91,53 @@ const Projects = ({ isArchive = false }) => {
                 </div>
 
                 {/* Grid */}
-                <motion.div
-                    layout
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
-                >
-                    <AnimatePresence mode="popLayout">
+                <div className="min-h-[400px]"> {/* Min height to prevent collapse during transition */}
+                    <AnimatePresence mode="wait">
                         {loading ? (
-                            // Skeleton Loading
-                            [1, 2, 3].map((n) => (
-                                <div key={n} className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 h-[400px] animate-pulse">
-                                    <div className="h-48 bg-slate-200 dark:bg-slate-700" />
-                                    <div className="p-6 space-y-4">
-                                        <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
-                                        <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
-                                        <div className="flex gap-2 pt-4">
-                                            <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded-full" />
-                                            <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded-full" />
+                            <motion.div
+                                key="loader"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+                            >
+                                {/* Skeleton Loading */}
+                                {[1, 2, 3].map((n) => (
+                                    <div key={n} className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 h-[400px] animate-pulse">
+                                        <div className="h-48 bg-slate-200 dark:bg-slate-700" />
+                                        <div className="p-6 space-y-4">
+                                            <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
+                                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+                                            <div className="flex gap-2 pt-4">
+                                                <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded-full" />
+                                                <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded-full" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))
-                        ) : filteredProjects.length > 0 ? (
-                            filteredProjects.map((project) => (
-                                <ProjectCard key={project.id} project={project} />
-                            ))
+                                ))}
+                            </motion.div>
                         ) : (
-                            <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12">
-                                <p className="text-lg text-slate-500">{t('works.empty')}</p>
-                            </div>
+                            <motion.div
+                                key={filter} // Key by filter to trigger exit/enter on change
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.2 }}
+                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+                            >
+                                {filteredProjects.length > 0 ? (
+                                    filteredProjects.map((project) => (
+                                        <ProjectCard key={project.id} project={project} />
+                                    ))
+                                ) : (
+                                    <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12">
+                                        <p className="text-lg text-slate-500">{t('works.empty')}</p>
+                                    </div>
+                                )}
+                            </motion.div>
                         )}
                     </AnimatePresence>
-                </motion.div>
+                </div>
 
 
 

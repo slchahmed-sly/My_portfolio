@@ -45,7 +45,7 @@ const Bio = () => {
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, margin: "0px 0px -150px 0px" }}
                     className="text-3xl md:text-5xl font-bold text-center mb-16 text-primary-text"
                 >
                     {t('bio.title')}

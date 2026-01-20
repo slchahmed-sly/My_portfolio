@@ -40,7 +40,7 @@ const Skills = () => {
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, margin: "0px 0px -150px 0px" }}
                     className="text-3xl md:text-5xl font-bold text-center mb-12 text-primary-text"
                 >
                     {t('skills.title')}
@@ -82,8 +82,8 @@ const Skills = () => {
                 {/* Marquee Area */}
                 <div className="relative overflow-hidden w-full h-40 flex items-center">
                     {/* Gradients to fade edges */}
-                    <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-gray-50 dark:from-slate-900 to-transparent z-10" />
-                    <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-gray-50 dark:from-slate-900 to-transparent z-10" />
+                    <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-primary-bg to-transparent z-10" />
+                    <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-primary-bg to-transparent z-10" />
 
                     {loading ? (
                         <div className="flex gap-12 px-12 animate-pulse w-full justify-center overflow-hidden">

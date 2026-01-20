@@ -84,23 +84,44 @@ const BlogPost = () => {
     useEffect(() => {
         if (loading || headings.length === 0) return;
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveId(entry.target.id);
-                    }
-                });
-            },
-            { rootMargin: '-100px 0px -60% 0px' }
-        );
+        const handleScroll = () => {
+            const headingElements = headings.map(({ id }) => document.getElementById(id));
 
-        headings.forEach(({ id }) => {
-            const element = document.getElementById(id);
-            if (element) observer.observe(element);
-        });
+            // Find the heading that is closest to the top of the viewport
+            // but not too far down (e.g., within top 20% or passed it)
+            let currentActiveId = '';
 
-        return () => observer.disconnect();
+            for (const element of headingElements) {
+                if (!element) continue;
+
+                const rect = element.getBoundingClientRect();
+
+                // If the element is within the top region of the viewport (e.g. top 150px)
+                // or we have scrolled past it, it could be the active one.
+                // We want the *last* one that satisfies this to be active.
+                if (rect.top <= 150) {
+                    currentActiveId = element.id;
+                } else {
+                    // Once we find an element that is further down, we stop, 
+                    // because the previous one was the correct "active" one.
+                    break;
+                }
+            }
+
+            // If we are at the very top, maybe no ID is active, or the first one?
+            // Let's keep the logic simple: verify we set something
+            if (currentActiveId) {
+                setActiveId(currentActiveId);
+            } else if (headings.length > 0 && window.scrollY < 200) {
+                // Optional: highlight first item if near top
+                setActiveId(headings[0].id);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll(); // Initial check
+
+        return () => window.removeEventListener('scroll', handleScroll);
     }, [headings, loading]);
 
     const handleCommentSubmit = async (e) => {
@@ -150,35 +171,11 @@ const BlogPost = () => {
     return (
         <article className="min-h-screen bg-primary-bg text-primary-text pb-20 pt-28">
 
-            {/* Header */}
-            <div className="container mx-auto max-w-5xl px-6 mb-12">
-                <Link to="/blog" className="inline-flex items-center gap-2 text-slate-500 hover:text-accent font-medium mb-8 transition-colors">
+            {/* Back Link (Top Left) */}
+            <div className="container mx-auto max-w-6xl px-6 mb-8">
+                <Link to="/blog" className="inline-flex items-center gap-2 text-slate-500 hover:text-accent font-medium transition-colors">
                     <ArrowLeft size={18} /> {t('blog_post.back_writing')}
                 </Link>
-
-                <div className="flex items-center gap-4 text-sm text-slate-400 mb-6">
-                    <span className="flex items-center gap-1">
-                        <Calendar size={14} />
-                        {new Date(post.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
-                    </span>
-                    <span>•</span>
-                    <span className="flex items-center gap-1">
-                        <Clock size={14} />
-                        {readTime} {t('blog.read_time')}
-                    </span>
-                </div>
-
-                <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-8">
-                    {post.title}
-                </h1>
-
-                <div className="flex gap-2">
-                    {post.tags.map(tag => (
-                        <span key={tag.id} className="text-sm font-semibold px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full">
-                            #{tag.name}
-                        </span>
-                    ))}
-                </div>
             </div>
 
             {/* Main Content Layout */}
@@ -186,6 +183,34 @@ const BlogPost = () => {
 
                 {/* Article Body (Left) */}
                 <div className="lg:col-span-3">
+
+                    {/* Post Header (Moved Inside Content Column) */}
+                    <div className="mb-12">
+                        <div className="flex items-center gap-4 text-sm text-slate-400 mb-6">
+                            <span className="flex items-center gap-1">
+                                <Calendar size={14} />
+                                {new Date(post.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                            </span>
+                            <span>•</span>
+                            <span className="flex items-center gap-1">
+                                <Clock size={14} />
+                                {readTime} {t('blog.read_time')}
+                            </span>
+                        </div>
+
+                        <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-8">
+                            {post.title}
+                        </h1>
+
+                        <div className="flex gap-2">
+                            {post.tags.map(tag => (
+                                <span key={tag.id} className="text-sm font-semibold px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full">
+                                    #{tag.name}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
                     <div className="prose prose-lg prose-slate dark:prose-invert max-w-none prose-headings:scroll-mt-32 prose-headings:font-bold prose-a:text-accent hover:prose-a:underline prose-img:rounded-xl prose-img:mx-auto">
                         <ReactMarkdown
                             remarkPlugins={[remarkMath]}
@@ -303,14 +328,16 @@ const BlogPost = () => {
                 <div className="hidden lg:block relative">
                     <div className="sticky top-32 max-h-[calc(100vh-140px)] overflow-y-auto pr-4 custom-scrollbar">
                         <h4 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4 sticky top-0 bg-primary-bg z-10 py-2">{t('blog_post.toc')}</h4>
-                        <nav className="flex flex-col gap-1 border-l py-2 border-slate-200 dark:border-slate-800">
+                        <nav className="flex flex-col gap-1 border-l py-2 border-slate-200 dark:border-slate-800 relative">
+                            {/* Create a separate track for the visual indicator */}
+
                             {headings.map(heading => (
                                 <a
                                     key={`${heading.id}-${heading.text}`}
                                     href={`#${heading.id}`}
-                                    className={`pl-4 py-1.5 text-sm border-l-2 -ml-[2px] transition-colors block truncate ${activeId === heading.id
-                                        ? 'border-accent text-accent font-medium'
-                                        : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                                    className={`pl-4 py-1.5 text-sm transition-colors block truncate relative ${activeId === heading.id
+                                        ? 'text-accent font-medium'
+                                        : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
                                         }`}
                                     style={{
                                         paddingLeft: heading.level === 3 ? '2rem' : heading.level === 2 ? '1rem' : '1rem',
@@ -319,9 +346,18 @@ const BlogPost = () => {
                                     onClick={(e) => {
                                         e.preventDefault();
                                         document.getElementById(heading.id)?.scrollIntoView({ behavior: 'smooth' });
-                                        setActiveId(heading.id);
+                                        // Wait a bit for scroll to act before updating ID manually if needed
                                     }}
                                 >
+                                    {activeId === heading.id && (
+                                        <motion.div
+                                            layoutId="activeToc"
+                                            className="absolute left-0 top-0 bottom-0 w-[2px] bg-accent -ml-[1px]"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                        />
+                                    )}
                                     {heading.text}
                                 </a>
                             ))}

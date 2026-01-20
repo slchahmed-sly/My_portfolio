@@ -27,7 +27,7 @@ const ScrollToAnchor = () => {
 // Wrapper to conditionally render Navbar or handle layout changes if needed
 const Layout = () => {
   return (
-    <div className="font-sans text-primary-text bg-primary-bg min-h-screen selection:bg-accent selection:text-white">
+    <div className="font-sans text-primary-text bg-primary-bg min-h-screen selection:bg-accent selection:text-white overflow-x-hidden">
       <ScrollToAnchor />
       <Navbar /> {/* Navbar stays global for now, or can be moved inside Home if specific to landing */}
       <Routes>

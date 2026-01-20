@@ -43,7 +43,7 @@ const Navbar = () => {
             initial={{ y: -100, x: "-50%", opacity: 0 }}
             animate={{ y: 0, x: "-50%", opacity: 1 }}
             transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-            className="fixed top-6 left-1/2 w-[90%] max-w-5xl bg-primary-bg rounded-full shadow-lg z-50 px-6 py-3 flex items-center justify-between"
+            className="fixed top-6 left-1/2 w-[90%] max-w-5xl bg-primary-bg rounded-full shadow-lg z-50 px-6 py-3 flex items-center justify-between border border-transparent dark:border-slate-700/50"
         >
             {/* Logo */}
             <Link to="/" className="text-xl font-bold bg-gradient-to-r from-brand-start to-brand-end bg-clip-text text-transparent">
