@@ -173,7 +173,7 @@ const BlogPost = () => {
 
             {/* Back Link (Top Left) */}
             <div className="container mx-auto max-w-6xl px-6 mb-8">
-                <Link to="/blog" className="inline-flex items-center gap-2 text-slate-500 hover:text-accent font-medium transition-colors">
+                <Link to="/blog" className="inline-flex items-center gap-2 text-zinc-500 hover:text-accent font-medium transition-colors">
                     <ArrowLeft size={18} /> {t('blog_post.back_writing')}
                 </Link>
             </div>
@@ -186,7 +186,7 @@ const BlogPost = () => {
 
                     {/* Post Header (Moved Inside Content Column) */}
                     <div className="mb-12">
-                        <div className="flex items-center gap-4 text-sm text-slate-400 mb-6">
+                        <div className="flex items-center gap-4 text-sm text-zinc-400 mb-6">
                             <span className="flex items-center gap-1">
                                 <Calendar size={14} />
                                 {new Date(post.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -204,14 +204,14 @@ const BlogPost = () => {
 
                         <div className="flex gap-2">
                             {post.tags.map(tag => (
-                                <span key={tag.id} className="text-sm font-semibold px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full">
+                                <span key={tag.id} className="text-sm font-semibold px-3 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 rounded-full">
                                     #{tag.name}
                                 </span>
                             ))}
                         </div>
                     </div>
 
-                    <div className="prose prose-lg prose-slate dark:prose-invert max-w-none prose-headings:scroll-mt-32 prose-headings:font-bold prose-a:text-accent hover:prose-a:underline prose-img:rounded-xl prose-img:mx-auto">
+                    <div className="prose prose-lg prose-zinc dark:prose-invert max-w-none prose-headings:scroll-mt-32 prose-headings:font-bold prose-a:text-accent hover:prose-a:underline prose-img:rounded-xl prose-img:mx-auto">
                         <ReactMarkdown
                             remarkPlugins={[remarkMath]}
                             rehypePlugins={[rehypeKatex]}
@@ -223,13 +223,13 @@ const BlogPost = () => {
                                             style={atomOneDark}
                                             language={match[1]}
                                             PreTag="div"
-                                            className="rounded-lg shadow-lg !bg-slate-900 !p-6 my-6 text-sm"
+                                            className="rounded-lg shadow-lg !bg-zinc-900 !p-6 my-6 text-sm"
                                             {...props}
                                         >
                                             {String(children).replace(/\n$/, '')}
                                         </SyntaxHighlighter>
                                     ) : (
-                                        <code className={`${className} bg-slate-100 dark:bg-slate-800 text-red-500 rounded px-1 py-0.5`} {...props}>
+                                        <code className={`${className} bg-zinc-100 dark:bg-zinc-800 text-red-500 rounded px-1 py-0.5`} {...props}>
                                             {children}
                                         </code>
                                     )
@@ -256,30 +256,30 @@ const BlogPost = () => {
                     </div>
 
                     {/* Comments Section */}
-                    <div className="mt-20 pt-12 border-t border-slate-100 dark:border-slate-800">
+                    <div className="mt-20 pt-12 border-t border-zinc-100 dark:border-zinc-800">
                         <h3 className="text-2xl font-bold mb-8">{t('blog_post.discussion')}</h3>
 
                         {/* List */}
                         {post.comments && post.comments.length > 0 ? (
                             <div className="space-y-6 mb-12">
                                 {post.comments.map(comment => (
-                                    <div key={comment.id} className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm">
+                                    <div key={comment.id} className="bg-white dark:bg-zinc-900 p-6 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm">
                                         <div className="flex items-center justify-between mb-3">
-                                            <h4 className="font-bold text-slate-800 dark:text-slate-200">{comment.author_name}</h4>
-                                            <span className="text-xs text-slate-400">
+                                            <h4 className="font-bold text-zinc-800 dark:text-zinc-200">{comment.author_name}</h4>
+                                            <span className="text-xs text-zinc-400">
                                                 {new Date(comment.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                                             </span>
                                         </div>
-                                        <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{comment.body}</p>
+                                        <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">{comment.body}</p>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <p className="text-slate-500 mb-8">{t('blog_post.no_comments')}</p>
+                            <p className="text-zinc-500 mb-8">{t('blog_post.no_comments')}</p>
                         )}
 
                         {/* Form */}
-                        <div className="bg-slate-50 dark:bg-slate-900 p-8 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        <div className="bg-zinc-50 dark:bg-zinc-900 p-8 rounded-2xl border border-zinc-100 dark:border-zinc-800">
                             <h4 className="text-lg font-bold mb-4">{t('blog_post.leave_comment')}</h4>
                             {commentStatus === 'SUCCESS' ? (
                                 <div className="text-green-600 bg-green-50 p-4 rounded-lg">
@@ -295,7 +295,7 @@ const BlogPost = () => {
                                             required
                                             value={commentData.author_name}
                                             onChange={e => setCommentData({ ...commentData, author_name: e.target.value })}
-                                            className="w-full px-4 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-accent"
+                                            className="w-full px-4 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 outline-none focus:ring-2 focus:ring-accent"
                                             placeholder="Jane Doe"
                                         />
                                     </div>
@@ -306,7 +306,7 @@ const BlogPost = () => {
                                             rows="3"
                                             value={commentData.body}
                                             onChange={e => setCommentData({ ...commentData, body: e.target.value })}
-                                            className="w-full px-4 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-accent"
+                                            className="w-full px-4 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 outline-none focus:ring-2 focus:ring-accent"
                                             placeholder="Great article..."
                                         ></textarea>
                                     </div>
@@ -327,8 +327,8 @@ const BlogPost = () => {
                 {/* Sidebar (Right) */}
                 <div className="hidden lg:block relative">
                     <div className="sticky top-32 max-h-[calc(100vh-140px)] overflow-y-auto pr-4 custom-scrollbar">
-                        <h4 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4 sticky top-0 bg-primary-bg z-10 py-2">{t('blog_post.toc')}</h4>
-                        <nav className="flex flex-col gap-1 border-l py-2 border-slate-200 dark:border-slate-800 relative">
+                        <h4 className="text-sm font-bold uppercase tracking-wider text-zinc-400 mb-4 sticky top-0 bg-primary-bg z-10 py-2">{t('blog_post.toc')}</h4>
+                        <nav className="flex flex-col gap-1 border-l py-2 border-zinc-200 dark:border-zinc-800 relative">
                             {/* Create a separate track for the visual indicator */}
 
                             {headings.map(heading => (
@@ -337,7 +337,7 @@ const BlogPost = () => {
                                     href={`#${heading.id}`}
                                     className={`pl-4 py-1.5 text-sm transition-colors block truncate relative ${activeId === heading.id
                                         ? 'text-accent font-medium'
-                                        : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                                        : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
                                         }`}
                                     style={{
                                         paddingLeft: heading.level === 3 ? '2rem' : heading.level === 2 ? '1rem' : '1rem',

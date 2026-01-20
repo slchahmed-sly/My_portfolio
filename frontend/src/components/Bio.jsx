@@ -95,7 +95,7 @@ const Bio = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
                                 transition={{ duration: 0.5 }}
-                                className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80"
+                                className="bg-white dark:bg-zinc-900 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-zinc-800 backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80"
                             >
                                 <h3 className="text-2xl font-bold text-accent mb-2">
                                     {events[activeIndex].title}

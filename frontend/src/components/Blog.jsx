@@ -73,13 +73,13 @@ const Blog = () => {
                     <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
                         {/* Search */}
                         <div className="relative w-full md:w-96">
-                            <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                            <Search className="absolute start-4 top-1/2 -translate-y-1/2 text-zinc-400" size={20} />
                             <input
                                 type="text"
                                 placeholder={t('blog.search_placeholder')}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full ps-12 pe-4 py-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-accent outline-none transition-shadow shadow-sm"
+                                className="w-full ps-12 pe-4 py-3 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-accent outline-none transition-shadow shadow-sm"
                             />
                         </div>
 
@@ -90,8 +90,8 @@ const Blog = () => {
                                     key={tag}
                                     onClick={() => setSelectedTag(tag)}
                                     className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${selectedTag === tag
-                                        ? 'bg-accent text-white'
-                                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                                        ? 'bg-accent text-primary-bg'
+                                        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-800'
                                         }`}
                                 >
                                     {tag}
@@ -106,7 +106,7 @@ const Blog = () => {
                     {loading ? (
                         <div className="animate-pulse space-y-8">
                             {[1, 2, 3].map(i => (
-                                <div key={i} className="h-32 bg-slate-100 dark:bg-slate-800 rounded-2xl"></div>
+                                <div key={i} className="h-32 bg-zinc-100 dark:bg-zinc-800 rounded-2xl"></div>
                             ))}
                         </div>
                     ) : filteredPosts.length > 0 ? (
@@ -116,10 +116,10 @@ const Blog = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
-                                className="group relative border-b border-slate-100 dark:border-slate-800 pb-12 last:border-0"
+                                className="group relative border-b border-zinc-100 dark:border-zinc-800 pb-12 last:border-0"
                             >
                                 <div className="flex flex-col gap-3 mb-3">
-                                    <div className="flex items-center gap-4 text-sm text-slate-400">
+                                    <div className="flex items-center gap-4 text-sm text-zinc-400">
                                         <span className="flex items-center gap-1">
                                             <Calendar size={14} />
                                             {new Date(post.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
@@ -138,14 +138,14 @@ const Blog = () => {
                                     </Link>
                                 </div>
 
-                                <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-4 line-clamp-2 md:line-clamp-3 md:w-3/4">
+                                <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4 line-clamp-2 md:line-clamp-3 md:w-3/4">
                                     {/* Strip markdown for excerpt if needed, or just show raw/formatted text */}
                                     {post.content.replace(/[#*`]/g, '').slice(0, 180)}...
                                 </p>
 
                                 <div className="flex gap-2 mt-4">
                                     {post.tags.map(tag => (
-                                        <span key={tag.id} className="text-xs font-semibold px-2 py-1 bg-slate-50 dark:bg-slate-900 text-slate-500 rounded">
+                                        <span key={tag.id} className="text-xs font-semibold px-2 py-1 bg-zinc-50 dark:bg-zinc-950 text-zinc-500 rounded">
                                             #{tag.name}
                                         </span>
                                     ))}
@@ -153,7 +153,7 @@ const Blog = () => {
                             </motion.article>
                         ))
                     ) : (
-                        <div className="text-center py-20 text-slate-400">
+                        <div className="text-center py-20 text-zinc-400">
                             <p className="text-lg">{t('blog.empty')}</p>
                             <button
                                 onClick={() => { setSearchTerm(''); setSelectedTag('All'); }}

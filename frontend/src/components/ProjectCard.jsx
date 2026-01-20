@@ -14,7 +14,7 @@ const ProjectCard = ({ project }) => {
             exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             onClick={() => navigate(`/projects/${project.slug}`)}
-            className="group relative bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full cursor-pointer"
+            className="group relative bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border border-gray-100 dark:border-zinc-700 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full cursor-pointer"
         >
             {/* Top Half - Thumbnail */}
             <div className="relative aspect-video overflow-hidden">
@@ -36,7 +36,7 @@ const ProjectCard = ({ project }) => {
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-3">
                     {project.tags.slice(0, 3).map(tag => ( // Limit tags for cleanliness
-                        <span key={tag.id} className="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300">
+                        <span key={tag.id} className="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-gray-300">
                             {tag.name}
                         </span>
                     ))}
@@ -48,7 +48,7 @@ const ProjectCard = ({ project }) => {
                 </p>
 
                 {/* Spacer to push footer down */}
-                <div className="mt-auto pt-4 border-t border-gray-100 dark:border-slate-700 flex items-center justify-between">
+                <div className="mt-auto pt-4 border-t border-gray-100 dark:border-zinc-700 flex items-center justify-between">
 
                     {/* Date / Type */}
                     <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">

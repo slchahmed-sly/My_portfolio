@@ -41,7 +41,7 @@ const Contact = () => {
                     <h2 className="text-3xl md:text-5xl font-bold text-primary-text mb-6">
                         {t('contact.title')}
                     </h2>
-                    <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-lg text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
                         {t('contact.subtitle')}
                     </p>
                 </motion.div>
@@ -55,20 +55,20 @@ const Contact = () => {
                         transition={{ delay: 0.2 }}
                         className="space-y-8"
                     >
-                        <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
+                        <div className="bg-white dark:bg-zinc-800 p-8 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-700">
                             <h3 className="text-xl font-bold text-primary-text mb-4">{t('contact.info_title')}</h3>
                             <a
                                 href="mailto:souleimane.ch.ahmed@gmail.com"
-                                className="flex items-center gap-3 text-slate-600 dark:text-slate-300 hover:text-accent transition-colors"
+                                className="flex items-center gap-3 text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors"
                             >
-                                <div className="p-3 bg-slate-100 dark:bg-slate-700 rounded-lg text-accent">
+                                <div className="p-3 bg-zinc-100 dark:bg-zinc-700 rounded-lg text-accent">
                                     <Mail size={20} />
                                 </div>
                                 <span className="font-medium">souleimane.ch.ahmed@gmail.com</span>
                             </a>
                         </div>
 
-                        <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
+                        <div className="bg-white dark:bg-zinc-800 p-8 rounded-2xl shadow-sm border border-zinc-100 dark:border-zinc-700">
                             <h3 className="text-xl font-bold text-primary-text mb-6">{t('contact.social_title')}</h3>
                             <div className="flex gap-4">
                                 <SocialLink href="https://github.com" icon={<Github size={20} />} label="GitHub" />
@@ -84,7 +84,7 @@ const Contact = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.4 }}
-                        className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-700"
+                        className="bg-white dark:bg-zinc-800 p-8 rounded-2xl shadow-lg border border-zinc-100 dark:border-zinc-700"
                     >
                         {status === 'SUCCESS' ? (
                             <div className="text-center py-12">
@@ -92,7 +92,7 @@ const Contact = () => {
                                     <CheckCircle size={48} />
                                 </div>
                                 <h3 className="text-2xl font-bold text-primary-text mb-2">{t('contact.success_title')}</h3>
-                                <p className="text-slate-500">{t('contact.success_message')}</p>
+                                <p className="text-zinc-500">{t('contact.success_message')}</p>
                                 <button
                                     onClick={() => setStatus('IDLE')}
                                     className="mt-6 text-accent font-semibold hover:underline"
@@ -103,7 +103,7 @@ const Contact = () => {
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('contact.name')}</label>
+                                    <label htmlFor="name" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">{t('contact.name')}</label>
                                     <input
                                         type="text"
                                         id="name"
@@ -111,12 +111,12 @@ const Contact = () => {
                                         required
                                         value={formData.name}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all"
                                         placeholder={t('contact.name')}
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('contact.email')}</label>
+                                    <label htmlFor="email" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">{t('contact.email')}</label>
                                     <input
                                         type="email"
                                         id="email"
@@ -124,12 +124,12 @@ const Contact = () => {
                                         required
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all"
                                         placeholder="john@example.com"
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('contact.message')}</label>
+                                    <label htmlFor="message" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">{t('contact.message')}</label>
                                     <textarea
                                         id="message"
                                         name="message"
@@ -137,7 +137,7 @@ const Contact = () => {
                                         rows="4"
                                         value={formData.message}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all resize-none"
+                                        className="w-full px-4 py-3 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-accent focus:border-transparent outline-none transition-all resize-none"
                                         placeholder={t('contact.message')}
                                     ></textarea>
                                 </div>
@@ -152,7 +152,7 @@ const Contact = () => {
                                 <button
                                     type="submit"
                                     disabled={status === 'SENDING'}
-                                    className="w-full flex items-center justify-center gap-2 bg-accent text-white py-3 rounded-lg font-bold hover:bg-opacity-90 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                                    className="w-full flex items-center justify-center gap-2 bg-accent text-primary-bg py-3 rounded-lg font-bold hover:bg-opacity-90 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                                 >
                                     {status === 'SENDING' ? t('contact.sending') : (
                                         <>
@@ -174,7 +174,7 @@ const SocialLink = ({ href, icon, label }) => (
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="p-3 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-accent hover:text-white transition-all duration-300 hover:-translate-y-1"
+        className="p-3 bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 rounded-lg hover:bg-accent hover:text-white transition-all duration-300 hover:-translate-y-1"
         aria-label={label}
     >
         {icon}

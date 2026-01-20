@@ -43,7 +43,7 @@ const Navbar = () => {
             initial={{ y: -100, x: "-50%", opacity: 0 }}
             animate={{ y: 0, x: "-50%", opacity: 1 }}
             transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-            className="fixed top-6 left-1/2 w-[90%] max-w-5xl bg-primary-bg rounded-full shadow-lg z-50 px-6 py-3 flex items-center justify-between border border-transparent dark:border-slate-700/50"
+            className="fixed top-6 left-1/2 w-[90%] max-w-5xl bg-primary-bg rounded-full shadow-lg z-50 px-6 py-3 flex items-center justify-between border border-transparent dark:border-zinc-800/50"
         >
             {/* Logo */}
             <Link to="/" className="text-xl font-bold bg-gradient-to-r from-brand-start to-brand-end bg-clip-text text-transparent">
@@ -86,7 +86,7 @@ const Navbar = () => {
 
                     <a
                         href="#"
-                        className="bg-accent hover:opacity-90 text-white px-5 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg"
+                        className="bg-accent hover:opacity-90 text-primary-bg px-5 py-2 rounded-full text-sm font-medium transition-all shadow-md hover:shadow-lg"
                     >
                         {t('navbar.downloadCV')}
                     </a>
@@ -136,7 +136,7 @@ const Navbar = () => {
                             <div className="h-px bg-gray-100 my-2" />
                             <a
                                 href="#"
-                                className="bg-accent text-white px-4 py-3 rounded-xl text-center font-medium shadow-md active:scale-95 transition-transform"
+                                className="bg-accent text-primary-bg px-4 py-3 rounded-xl text-center font-medium shadow-md active:scale-95 transition-transform"
                                 onClick={() => setIsOpen(false)}
                             >
                                 {t('navbar.downloadCV')}

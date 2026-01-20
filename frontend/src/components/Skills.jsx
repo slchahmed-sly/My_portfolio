@@ -50,7 +50,7 @@ const Skills = () => {
                 <div className="flex justify-center gap-6 mb-16">
                     <button
                         onClick={() => setActiveTab('WEB')}
-                        className={`relative px-4 py-2 text-sm md:px-8 md:py-3 md:text-lg rounded-full font-bold transition-all duration-300 ${activeTab === 'WEB' ? 'text-white' : 'text-gray-400 hover:text-gray-600 bg-gray-200 dark:bg-slate-800'
+                        className={`relative px-4 py-2 text-sm md:px-8 md:py-3 md:text-lg rounded-full font-bold transition-all duration-300 ${activeTab === 'WEB' ? 'text-primary-bg' : 'text-gray-400 hover:text-gray-600 bg-gray-200 dark:bg-zinc-900'
                             }`}
                     >
                         {activeTab === 'WEB' && (
@@ -65,7 +65,7 @@ const Skills = () => {
 
                     <button
                         onClick={() => setActiveTab('DATA')}
-                        className={`relative px-4 py-2 text-sm md:px-8 md:py-3 md:text-lg rounded-full font-bold transition-all duration-300 ${activeTab === 'DATA' ? 'text-white' : 'text-gray-400 hover:text-gray-600 bg-gray-200 dark:bg-slate-800'
+                        className={`relative px-4 py-2 text-sm md:px-8 md:py-3 md:text-lg rounded-full font-bold transition-all duration-300 ${activeTab === 'DATA' ? 'text-primary-bg' : 'text-gray-400 hover:text-gray-600 bg-gray-200 dark:bg-zinc-900'
                             }`}
                     >
                         {activeTab === 'DATA' && (
@@ -89,8 +89,8 @@ const Skills = () => {
                         <div className="flex gap-12 px-12 animate-pulse w-full justify-center overflow-hidden">
                             {[1, 2, 3, 4, 5].map((n) => (
                                 <div key={n} className="flex flex-col items-center gap-3 min-w-[8rem]">
-                                    <div className="w-20 h-20 bg-slate-200 dark:bg-slate-800 rounded-xl" />
-                                    <div className="h-4 w-24 bg-slate-200 dark:bg-slate-800 rounded" />
+                                    <div className="w-20 h-20 bg-zinc-200 dark:bg-zinc-800 rounded-xl" />
+                                    <div className="h-4 w-24 bg-zinc-200 dark:bg-zinc-800 rounded" />
                                 </div>
                             ))}
                         </div>
@@ -119,7 +119,7 @@ const Skills = () => {
                                             key={`${skill.id}-${idx}`}
                                             className="flex flex-col items-center justify-center gap-3 w-32 group cursor-default"
                                         >
-                                            <div className="w-20 h-20 bg-white dark:bg-slate-800 rounded-xl shadow-md p-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-slate-700">
+                                            <div className="w-20 h-20 bg-white dark:bg-zinc-900 rounded-xl shadow-md p-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-zinc-800">
                                                 {skill.logo ? (
                                                     <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
                                                 ) : (
@@ -135,7 +135,7 @@ const Skills = () => {
                             </motion.div>
                         </AnimatePresence>
                     ) : (
-                        <div className="w-full text-center text-slate-500">
+                        <div className="w-full text-center text-zinc-500">
                             No skills found for this category.
                         </div>
                     )}

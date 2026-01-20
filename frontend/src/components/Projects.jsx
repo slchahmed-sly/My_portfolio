@@ -73,14 +73,14 @@ const Projects = ({ isArchive = false }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "0px 0px -150px 0px" }}
                         transition={{ delay: 0.2 }}
-                        className="inline-flex flex-wrap justify-center gap-2 bg-gray-100 dark:bg-slate-800 p-1.5 rounded-3xl"
+                        className="inline-flex flex-wrap justify-center gap-2 bg-gray-100 dark:bg-zinc-900 p-1.5 rounded-3xl"
                     >
                         {filters.map((f) => (
                             <button
                                 key={f.key}
                                 onClick={() => setFilter(f.key)}
                                 className={`px-4 py-2 text-sm md:px-6 md:py-2 md:text-sm font-semibold rounded-full transition-all duration-300 ${filter === f.key
-                                    ? 'bg-white dark:bg-slate-700 text-primary-text shadow-sm'
+                                    ? 'bg-white dark:bg-zinc-800 text-primary-text shadow-sm'
                                     : 'text-gray-500 hover:text-primary-text'
                                     }`}
                             >
@@ -103,14 +103,14 @@ const Projects = ({ isArchive = false }) => {
                             >
                                 {/* Skeleton Loading */}
                                 {[1, 2, 3].map((n) => (
-                                    <div key={n} className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 h-[400px] animate-pulse">
-                                        <div className="h-48 bg-slate-200 dark:bg-slate-700" />
+                                    <div key={n} className="bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden shadow-sm border border-zinc-100 dark:border-zinc-800 h-[400px] animate-pulse">
+                                        <div className="h-48 bg-zinc-200 dark:bg-zinc-800" />
                                         <div className="p-6 space-y-4">
-                                            <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
-                                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+                                            <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4" />
+                                            <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2" />
                                             <div className="flex gap-2 pt-4">
-                                                <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded-full" />
-                                                <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded-full" />
+                                                <div className="h-6 w-16 bg-zinc-200 dark:bg-zinc-800 rounded-full" />
+                                                <div className="h-6 w-16 bg-zinc-200 dark:bg-zinc-800 rounded-full" />
                                             </div>
                                         </div>
                                     </div>
@@ -131,7 +131,7 @@ const Projects = ({ isArchive = false }) => {
                                     ))
                                 ) : (
                                     <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-12">
-                                        <p className="text-lg text-slate-500">{t('works.empty')}</p>
+                                        <p className="text-lg text-zinc-500">{t('works.empty')}</p>
                                     </div>
                                 )}
                             </motion.div>

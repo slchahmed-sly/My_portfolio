@@ -58,8 +58,8 @@ const ProjectDetail = () => {
                     {project.title}
                 </h1>
 
-                <div className="flex flex-wrap items-center justify-between gap-6 border-b border-slate-100 pb-8 mb-8">
-                    <span className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+                <div className="flex flex-wrap items-center justify-between gap-6 border-b border-zinc-100 pb-8 mb-8">
+                    <span className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
                         {project.category ? project.category.replace('_', ' ') : t('project_detail.default_category')}
                     </span>
 
@@ -69,7 +69,7 @@ const ProjectDetail = () => {
                                 href={project.demo_link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-2 px-6 py-2 bg-accent text-white rounded-full font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all text-sm"
+                                className="flex items-center gap-2 px-6 py-2 bg-accent text-primary-bg rounded-full font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all text-sm"
                             >
                                 {t('project_detail.live_demo')} <ExternalLink size={16} />
                             </a>
@@ -79,7 +79,7 @@ const ProjectDetail = () => {
                                 href={project.repo_link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-2 px-6 py-2 border-2 border-slate-200 text-slate-600 rounded-full font-semibold hover:border-slate-800 hover:text-slate-900 transition-all text-sm"
+                                className="flex items-center gap-2 px-6 py-2 border-2 border-zinc-200 text-zinc-600 rounded-full font-semibold hover:border-zinc-800 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-300 dark:hover:text-zinc-100 transition-all text-sm"
                             >
                                 {t('project_detail.source_code')} <Github size={16} />
                             </a>
@@ -94,19 +94,19 @@ const ProjectDetail = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="rounded-xl overflow-hidden shadow-2xl bg-slate-100"
+                    className="rounded-xl overflow-hidden shadow-2xl bg-zinc-100"
                 >
                     <img
                         src={project.thumbnail}
                         alt={project.title}
-                        className="w-full h-auto max-h-[45vh] object-contain bg-slate-200 dark:bg-slate-700"
+                        className="w-full h-auto max-h-[45vh] object-contain bg-zinc-200 dark:bg-zinc-800"
                     />
                 </motion.div>
 
                 {/* Tech Stack */}
                 <div className="flex flex-wrap gap-2 justify-center mt-8">
                     {project.tags.map(tag => (
-                        <span key={tag.id} className="text-xs font-medium px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                        <span key={tag.id} className="text-xs font-medium px-3 py-1.5 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200">
                             {tag.name}
                         </span>
                     ))}
@@ -114,7 +114,7 @@ const ProjectDetail = () => {
             </div>
 
             {/* Content Body */}
-            <div className="max-w-4xl mx-auto px-6 prose prose-lg prose-slate dark:prose-invert prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-a:text-accent hover:prose-a:underline prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-slate-50 dark:prose-blockquote:bg-slate-800 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg prose-img:rounded-xl">
+            <div className="max-w-4xl mx-auto px-6 prose prose-lg prose-zinc dark:prose-invert prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-a:text-accent hover:prose-a:underline prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-zinc-50 dark:prose-blockquote:bg-zinc-900 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg prose-img:rounded-xl">
                 <ReactMarkdown
                     remarkPlugins={[remarkMath]}
                     rehypePlugins={[rehypeKatex]}
@@ -126,13 +126,13 @@ const ProjectDetail = () => {
                                     style={atomOneDark}
                                     language={match[1]}
                                     PreTag="div"
-                                    className="rounded-lg shadow-lg !bg-slate-900 !p-6 my-6 text-sm"
+                                    className="rounded-lg shadow-lg !bg-zinc-900 !p-6 my-6 text-sm"
                                     {...props}
                                 >
                                     {String(children).replace(/\n$/, '')}
                                 </SyntaxHighlighter>
                             ) : (
-                                <code className={`${className} !bg-slate-100 dark:!bg-slate-800 !text-red-500 rounded px-1 py-0.5 font-mono text-sm`} {...props}>
+                                <code className={`${className} !bg-zinc-100 dark:!bg-zinc-900 !text-red-500 rounded px-1 py-0.5 font-mono text-sm`} {...props}>
                                     {children}
                                 </code>
                             )
@@ -167,7 +167,7 @@ const ProjectDetail = () => {
             </div>
 
             {/* Footer */}
-            <div className="max-w-4xl mx-auto px-6 mt-20 pt-10 border-t border-slate-100 dark:border-slate-800 flex justify-end">
+            <div className="max-w-4xl mx-auto px-6 mt-20 pt-10 border-t border-zinc-100 dark:border-zinc-800 flex justify-end">
                 <Link to="/projects" className="group inline-flex items-center gap-3 text-lg font-semibold text-primary-text hover:text-accent transition-colors">
                     {t('project_detail.explore_more')} <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </Link>

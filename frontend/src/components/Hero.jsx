@@ -51,7 +51,7 @@ const Hero = () => {
                     </motion.div>
 
                     <motion.div variants={itemVariants} className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
-                        <a href="#projects" className="group bg-accent text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-opacity-90 transition-all flex items-center gap-2 hover:gap-3">
+                        <a href="#projects" className="group bg-accent text-primary-bg px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-opacity-90 transition-all flex items-center gap-2 hover:gap-3">
                             {t('hero.view_work')} <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
                         </a>
                         <a href="/blog" className="px-8 py-3 rounded-full font-semibold border-2 border-gray-200 hover:border-accent hover:text-accent transition-colors flex items-center gap-2 text-primary-text">
