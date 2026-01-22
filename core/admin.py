@@ -3,7 +3,6 @@ from .models import *
 from markdownx.admin import MarkdownxModelAdmin
 from modeltranslation.admin import TranslationAdmin
 
-# Register your models here.
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')

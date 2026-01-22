@@ -99,10 +99,10 @@ class Comment(models.Model):
         return f"Comment by {self.author_name} on {self.post.title}"
 
 class TimelineEvent(models.Model):
-    year = models.CharField(max_length=30) # e.g., "2018" or "2018-2021"
+    year = models.CharField(max_length=30)
     title = models.CharField(max_length=100)
-    description = models.TextField() # The mini-story
-    order = models.IntegerField(default=0) # To control the sequence
+    description = models.TextField()
+    order = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['order']

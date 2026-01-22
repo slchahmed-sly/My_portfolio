@@ -71,7 +71,7 @@ const Bio = () => {
                                 onMouseLeave={() => setIsPaused(false)}
                             >
                                 <div className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${index === activeIndex
-                                    ? 'bg-primary-bg border-accent scale-150 shadow-[0_0_15px_rgba(14,165,233,0.6)]'
+                                    ? 'bg-primary-bg border-accent scale-150 shadow-[0_0_15px_rgb(var(--color-accent)/0.6)]'
                                     : 'bg-gray-300 border-transparent hover:bg-accent/50'
                                     }`} />
                                 <span className={`absolute -top-8 left-1/2 -translate-x-1/2 md:top-1/2 md:start-8 md:-translate-y-1/2 md:translate-x-0 text-sm font-semibold transition-colors duration-300 whitespace-nowrap ${index === activeIndex ? 'text-accent' : 'text-gray-400'
